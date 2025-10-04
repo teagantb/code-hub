@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "./language-switcher";
 
 export default function Navbar() {
     const { user, loading, logout } = useAuth();
+    const t = useTranslations("navbar");
 
     const handleLogout = async () => {
         await logout();
@@ -22,17 +25,23 @@ export default function Navbar() {
                                     CH
                                 </span>
                             </div>
-                            <span className="font-bold text-xl">CodeHub</span>
+                            <span className="font-bold text-xl">
+                                {t("title")}
+                            </span>
                         </Link>
                     </div>
 
                     <div className="flex items-center space-x-4">
                         <Link href="/snippets">
-                            <Button variant="ghost">Browse Snippets</Button>
+                            <Button variant="ghost">
+                                {t("browseSnippets")}
+                            </Button>
                         </Link>
                         {user && (
                             <Link href="/snippets/new">
-                                <Button variant="ghost">Create Snippet</Button>
+                                <Button variant="ghost">
+                                    {t("createSnippet")}
+                                </Button>
                             </Link>
                         )}
 
@@ -42,29 +51,35 @@ export default function Navbar() {
                             </div>
                         ) : user ? (
                             <div className="flex items-center space-x-4">
-                                <span className="text-sm text-muted-foreground">
-                                    Welcome, {user.name}
-                                </span>
+                                <Link
+                                    href={`/users/${user.username || user.id}`}
+                                >
+                                    <span className="text-sm text-muted-foreground hover:text-foreground cursor-pointer">
+                                        {user.name}
+                                    </span>
+                                </Link>
                                 <Button
                                     variant="outline"
                                     size="sm"
                                     onClick={handleLogout}
                                 >
-                                    Logout
+                                    {t("logout")}
                                 </Button>
                             </div>
                         ) : (
                             <div className="flex items-center space-x-2">
                                 <Link href="/login">
                                     <Button variant="outline" size="sm">
-                                        Login
+                                        {t("login")}
                                     </Button>
                                 </Link>
                                 <Link href="/register">
-                                    <Button size="sm">Sign Up</Button>
+                                    <Button size="sm">{t("signUp")}</Button>
                                 </Link>
                             </div>
                         )}
+
+                        <LanguageSwitcher />
                     </div>
                 </div>
             </div>

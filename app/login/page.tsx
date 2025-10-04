@@ -14,6 +14,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTranslations } from "next-intl";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -23,6 +24,7 @@ export default function LoginPage() {
 
     const router = useRouter();
     const { login } = useAuth();
+    const t = useTranslations("auth.login");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -44,10 +46,10 @@ export default function LoginPage() {
                 login(data.user);
                 router.push("/");
             } else {
-                setError(data.error || "Login failed");
+                setError(data.error || t("errors.loginFailed"));
             }
         } catch (error) {
-            setError("An error occurred. Please try again.");
+            setError(t("errors.tryAgain"));
         } finally {
             setLoading(false);
         }
@@ -57,10 +59,8 @@ export default function LoginPage() {
         <div className="container mx-auto px-4 py-8 max-w-md">
             <Card>
                 <CardHeader className="text-center">
-                    <CardTitle className="text-2xl">Welcome Back</CardTitle>
-                    <CardDescription>
-                        Sign in to your CodeHub account
-                    </CardDescription>
+                    <CardTitle className="text-2xl">{t("title")}</CardTitle>
+                    <CardDescription>{t("subtitle")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,26 +71,26 @@ export default function LoginPage() {
                         )}
 
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">{t("email")}</Label>
                             <Input
                                 id="email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                placeholder="Enter your email"
+                                placeholder={t("email")}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password">{t("password")}</Label>
                             <Input
                                 id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                placeholder="Enter your password"
+                                placeholder={t("password")}
                             />
                         </div>
 
@@ -99,19 +99,19 @@ export default function LoginPage() {
                             className="w-full"
                             disabled={loading}
                         >
-                            {loading ? "Signing in..." : "Sign In"}
+                            {loading ? t("signingIn") : t("signIn")}
                         </Button>
                     </form>
 
                     <div className="mt-6 text-center text-sm">
                         <span className="text-muted-foreground">
-                            Don't have an account?{" "}
+                            {t("dontHaveAccount")}{" "}
                         </span>
                         <Link
                             href="/register"
                             className="text-primary hover:underline"
                         >
-                            Sign up
+                            {t("signUp")}
                         </Link>
                     </div>
                 </CardContent>

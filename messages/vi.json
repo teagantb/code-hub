@@ -1,0 +1,186 @@
+{
+    "common": {
+        "loading": "Đang tải...",
+        "error": "Đã xảy ra lỗi",
+        "tryAgain": "Thử lại",
+        "search": "Tìm kiếm",
+        "filter": "Lọc",
+        "previous": "Trước",
+        "next": "Tiếp",
+        "page": "Trang",
+        "of": "của",
+        "cancel": "Hủy",
+        "save": "Lưu",
+        "edit": "Chỉnh sửa",
+        "delete": "Xóa",
+        "create": "Tạo",
+        "update": "Cập nhật",
+        "copy": "Sao chép",
+        "back": "Quay lại"
+    },
+    "navbar": {
+        "title": "CodeHub",
+        "browseSnippets": "Duyệt Snippets",
+        "createSnippet": "Tạo Snippet",
+        "login": "Đăng nhập",
+        "signUp": "Đăng ký",
+        "logout": "Đăng xuất",
+        "welcome": "Chào mừng, {name}"
+    },
+    "home": {
+        "title": "Chào mừng đến với CodeHub",
+        "subtitle": "Chia sẻ code snippets, gắn thẻ theo ngôn ngữ và chủ đề, và nhận phân tích độ phức tạp thời gian cơ bản. Kết nối với các nhà phát triển trên toàn thế giới.",
+        "createFirstSnippet": "Tạo Snippet Đầu Tiên",
+        "browseSnippets": "Duyệt Snippets",
+        "whyChooseCodeHub": "Tại sao chọn CodeHub?",
+        "shareAndDiscover": {
+            "title": "Chia sẻ & Khám phá",
+            "description": "Chia sẻ code snippets và khám phá những giải pháp tuyệt vời từ các nhà phát triển trên khắp thế giới."
+        },
+        "smartTagging": {
+            "title": "Gắn thẻ thông minh",
+            "description": "Gắn thẻ snippets theo ngôn ngữ, chủ đề và độ khó để dễ dàng khám phá."
+        },
+        "complexityAnalysis": {
+            "title": "Phân tích độ phức tạp",
+            "description": "Nhận phân tích độ phức tạp thời gian cơ bản cho thuật toán và hiểu hiệu suất của chúng."
+        },
+        "readyToGetStarted": "Sẵn sàng bắt đầu?",
+        "joinDevelopers": "Tham gia hàng nghìn nhà phát triển chia sẻ kiến thức và học hỏi lẫn nhau.",
+        "signUpForFree": "Đăng ký miễn phí"
+    },
+    "auth": {
+        "login": {
+            "title": "Chào mừng trở lại",
+            "subtitle": "Đăng nhập vào tài khoản CodeHub của bạn",
+            "email": "Email",
+            "password": "Mật khẩu",
+            "signIn": "Đăng nhập",
+            "signingIn": "Đang đăng nhập...",
+            "dontHaveAccount": "Chưa có tài khoản?",
+            "signUp": "Đăng ký"
+        },
+        "register": {
+            "title": "Tạo tài khoản",
+            "subtitle": "Tham gia CodeHub và bắt đầu chia sẻ code snippets",
+            "fullName": "Họ và tên",
+            "email": "Email",
+            "username": "Tên người dùng (tùy chọn)",
+            "password": "Mật khẩu",
+            "confirmPassword": "Xác nhận mật khẩu",
+            "createAccount": "Tạo tài khoản",
+            "creatingAccount": "Đang tạo tài khoản...",
+            "alreadyHaveAccount": "Đã có tài khoản?",
+            "signIn": "Đăng nhập"
+        },
+        "errors": {
+            "nameEmailPasswordRequired": "Họ tên, email và mật khẩu là bắt buộc",
+            "passwordTooShort": "Mật khẩu phải có ít nhất 6 ký tự",
+            "userExists": "Người dùng với email hoặc tên người dùng này đã tồn tại",
+            "invalidCredentials": "Email hoặc mật khẩu không hợp lệ",
+            "passwordsDoNotMatch": "Mật khẩu không khớp",
+            "registrationFailed": "Đăng ký thất bại",
+            "loginFailed": "Đăng nhập thất bại",
+            "authRequired": "Bạn phải đăng nhập để tạo snippet"
+        }
+    },
+    "snippets": {
+        "title": "Duyệt Snippets",
+        "subtitle": "Khám phá những code snippets tuyệt vời từ các nhà phát triển trên toàn thế giới",
+        "searchPlaceholder": "Tìm kiếm snippets...",
+        "allLanguages": "Tất cả ngôn ngữ",
+        "noSnippetsFound": "Không tìm thấy snippets. Hãy là người đầu tiên tạo!",
+        "createSnippet": "Tạo Snippet",
+        "loadingSnippets": "Đang tải snippets...",
+        "by": "bởi",
+        "copyCode": "Sao chép code",
+        "backToSnippets": "Quay lại Snippets",
+        "search": "Tìm kiếm",
+        "tryAgain": "Thử lại",
+        "previous": "Trước",
+        "next": "Tiếp",
+        "page": "Trang",
+        "of": "của",
+        "create": {
+            "title": "Tạo Snippet Mới",
+            "subtitle": "Chia sẻ code với cộng đồng CodeHub",
+            "snippetTitle": "Tiêu đề",
+            "language": "Ngôn ngữ",
+            "description": "Mô tả",
+            "topic": "Chủ đề",
+            "tags": "Thẻ",
+            "code": "Code",
+            "selectLanguage": "Chọn ngôn ngữ",
+            "describeSnippet": "Mô tả snippet này làm gì",
+            "topicPlaceholder": "ví dụ: thuật toán, phát triển web",
+            "tagsPlaceholder": "thẻ phân cách bằng dấu phẩy",
+            "codePlaceholder": "Dán code của bạn vào đây",
+            "creating": "Đang tạo...",
+            "createSnippet": "Tạo Snippet",
+            "loading": "Đang tải...",
+            "authRequired": "Yêu cầu xác thực",
+            "authRequiredDescription": "Bạn phải đăng nhập để tạo snippet.",
+            "login": "Đăng nhập",
+            "errors": {
+                "titleCodeLanguageRequired": "Tiêu đề, code và ngôn ngữ là bắt buộc",
+                "createFailed": "Tạo snippet thất bại",
+                "authRequired": "Yêu cầu xác thực",
+                "authRequiredDescription": "Bạn phải đăng nhập để tạo snippet.",
+                "login": "Đăng nhập"
+            }
+        },
+        "view": {
+            "snippetNotFound": "Không tìm thấy Snippet",
+            "snippetNotFoundDescription": "Snippet bạn đang tìm không tồn tại.",
+            "loadingSnippet": "Đang tải snippet...",
+            "updated": "Đã cập nhật",
+            "topic": "Chủ đề",
+            "code": "Code",
+            "copyCode": "Sao chép code",
+            "backToSnippets": "Quay lại Snippets",
+            "by": "bởi",
+            "edit": "Chỉnh sửa",
+            "delete": "Xóa",
+            "deleting": "Đang xóa..."
+        },
+        "edit": {
+            "title": "Chỉnh sửa Snippet",
+            "subtitle": "Cập nhật code snippet của bạn",
+            "saving": "Đang lưu...",
+            "updateSnippet": "Cập nhật Snippet",
+            "accessDenied": "Truy cập bị từ chối",
+            "accessDeniedDescription": "Bạn chỉ có thể chỉnh sửa snippets của chính mình.",
+            "viewSnippet": "Xem Snippet"
+        }
+    },
+    "tags": {
+        "title": "Duyệt Thẻ",
+        "subtitle": "Khám phá code snippets theo chủ đề và công nghệ lập trình",
+        "searchPlaceholder": "Tìm kiếm thẻ...",
+        "noTagsFound": "Không tìm thấy thẻ phù hợp với tìm kiếm của bạn.",
+        "noTagsAvailable": "Chưa có thẻ nào.",
+        "snippets": "snippet",
+        "snippetsPlural": "snippets",
+        "viewSnippets": "Xem {count} code {snippet} được gắn thẻ {tag}",
+        "noSnippetsYet": "Chưa có snippets",
+        "loading": "Đang tải thẻ..."
+    },
+    "users": {
+        "profile": {
+            "title": "Hồ sơ người dùng",
+            "userNotFound": "Không tìm thấy người dùng",
+            "userNotFoundDescription": "Người dùng bạn đang tìm không tồn tại.",
+            "loadingProfile": "Đang tải hồ sơ...",
+            "joined": "Tham gia",
+            "snippet": "snippet",
+            "snippets": "snippets",
+            "languages": "Ngôn ngữ",
+            "popularTags": "Thẻ phổ biến",
+            "searchPlaceholder": "Tìm kiếm snippets...",
+            "allLanguages": "Tất cả ngôn ngữ",
+            "noSnippetsShared": "Chưa chia sẻ snippets nào.",
+            "noSnippetsMatch": "Không có snippets nào phù hợp với tiêu chí tìm kiếm của bạn.",
+            "loadingSnippets": "Đang tải snippets..."
+        }
+    }
+}

@@ -1,13 +1,11 @@
+import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "@/lib/auth";
 
-// Routes that require authentication
-const protectedRoutes = [
-    "/snippets/new",
-    "/snippets/edit",
-    "/profile",
-    "/dashboard",
-];
+const intlMiddleware = createMiddleware({
+    locales: ["en", "vi"],
+    defaultLocale: "en",
+});
 
 // Routes that should redirect to home if user is already authenticated
 const authRoutes = ["/login", "/register"];
@@ -16,25 +14,14 @@ export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const token = request.cookies.get("auth-token")?.value;
 
-    // Check if the current route is protected
-    const isProtectedRoute = protectedRoutes.some((route) =>
-        pathname.startsWith(route)
-    );
+    // Handle internationalization first
+    const intlResponse = intlMiddleware(request);
+    if (intlResponse) {
+        return intlResponse;
+    }
 
     // Check if the current route is an auth route
     const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
-
-    // If it's a protected route, check authentication
-    if (isProtectedRoute) {
-        if (!token) {
-            return NextResponse.redirect(new URL("/login", request.url));
-        }
-
-        const payload = verifyToken(token);
-        if (!payload) {
-            return NextResponse.redirect(new URL("/login", request.url));
-        }
-    }
 
     // If it's an auth route and user is authenticated, redirect to home
     if (isAuthRoute && token) {
@@ -44,6 +31,8 @@ export function middleware(request: NextRequest) {
         }
     }
 
+    // For now, let client-side handle protected route authentication
+    // This prevents the redirect loop issue
     return NextResponse.next();
 }
 

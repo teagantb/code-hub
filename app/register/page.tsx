@@ -14,6 +14,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTranslations } from "next-intl";
 
 export default function RegisterPage() {
     const [name, setName] = useState("");
@@ -26,6 +27,7 @@ export default function RegisterPage() {
 
     const router = useRouter();
     const { login } = useAuth();
+    const t = useTranslations("auth.register");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,13 +35,13 @@ export default function RegisterPage() {
         setError("");
 
         if (password !== confirmPassword) {
-            setError("Passwords do not match");
+            setError(t("errors.passwordsDoNotMatch"));
             setLoading(false);
             return;
         }
 
         if (password.length < 6) {
-            setError("Password must be at least 6 characters long");
+            setError(t("errors.passwordTooShort"));
             setLoading(false);
             return;
         }
@@ -64,10 +66,10 @@ export default function RegisterPage() {
                 login(data.user);
                 router.push("/");
             } else {
-                setError(data.error || "Registration failed");
+                setError(data.error || t("errors.registrationFailed"));
             }
         } catch (error) {
-            setError("An error occurred. Please try again.");
+            setError(t("errors.tryAgain"));
         } finally {
             setLoading(false);
         }
@@ -77,10 +79,8 @@ export default function RegisterPage() {
         <div className="container mx-auto px-4 py-8 max-w-md">
             <Card>
                 <CardHeader className="text-center">
-                    <CardTitle className="text-2xl">Create Account</CardTitle>
-                    <CardDescription>
-                        Join CodeHub and start sharing your code snippets
-                    </CardDescription>
+                    <CardTitle className="text-2xl">{t("title")}</CardTitle>
+                    <CardDescription>{t("subtitle")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
@@ -91,57 +91,55 @@ export default function RegisterPage() {
                         )}
 
                         <div className="space-y-2">
-                            <Label htmlFor="name">Full Name</Label>
+                            <Label htmlFor="name">{t("fullName")}</Label>
                             <Input
                                 id="name"
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
-                                placeholder="Enter your full name"
+                                placeholder={t("fullName")}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">{t("email")}</Label>
                             <Input
                                 id="email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                placeholder="Enter your email"
+                                placeholder={t("email")}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="username">
-                                Username (optional)
-                            </Label>
+                            <Label htmlFor="username">{t("username")}</Label>
                             <Input
                                 id="username"
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                placeholder="Choose a username"
+                                placeholder={t("username")}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password">{t("password")}</Label>
                             <Input
                                 id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                placeholder="Create a password"
+                                placeholder={t("password")}
                             />
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="confirmPassword">
-                                Confirm Password
+                                {t("confirmPassword")}
                             </Label>
                             <Input
                                 id="confirmPassword"
@@ -151,7 +149,7 @@ export default function RegisterPage() {
                                     setConfirmPassword(e.target.value)
                                 }
                                 required
-                                placeholder="Confirm your password"
+                                placeholder={t("confirmPassword")}
                             />
                         </div>
 
@@ -160,19 +158,21 @@ export default function RegisterPage() {
                             className="w-full"
                             disabled={loading}
                         >
-                            {loading ? "Creating account..." : "Create Account"}
+                            {loading
+                                ? t("creatingAccount")
+                                : t("createAccount")}
                         </Button>
                     </form>
 
                     <div className="mt-6 text-center text-sm">
                         <span className="text-muted-foreground">
-                            Already have an account?{" "}
+                            {t("alreadyHaveAccount")}{" "}
                         </span>
                         <Link
                             href="/login"
                             className="text-primary hover:underline"
                         >
-                            Sign in
+                            {t("signIn")}
                         </Link>
                     </div>
                 </CardContent>

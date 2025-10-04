@@ -7,24 +7,25 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+    const t = useTranslations("home");
+
     return (
         <div className="container mx-auto px-4 py-8">
             {/* Hero Section */}
             <section className="text-center py-16">
                 <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                    Welcome to <span className="text-primary">CodeHub</span>
+                    {t("title")}
                 </h1>
                 <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                    Share your code snippets, tag them by language and topic,
-                    and get basic time complexity analysis. Connect with
-                    developers worldwide.
+                    {t("subtitle")}
                 </p>
                 <div className="flex gap-4 justify-center flex-col sm:flex-row">
                     <Link href="/snippets/new">
                         <Button size="lg" className="w-full sm:w-auto">
-                            Create Your First Snippet
+                            {t("createFirstSnippet")}
                         </Button>
                     </Link>
                     <Link href="/snippets">
@@ -33,7 +34,7 @@ export default function Home() {
                             size="lg"
                             className="w-full sm:w-auto"
                         >
-                            Browse Snippets
+                            {t("browseSnippets")}
                         </Button>
                     </Link>
                 </div>
@@ -42,15 +43,14 @@ export default function Home() {
             {/* Features Section */}
             <section className="py-16">
                 <h2 className="text-3xl font-bold text-center mb-12">
-                    Why Choose CodeHub?
+                    {t("whyChooseCodeHub")}
                 </h2>
                 <div className="grid md:grid-cols-3 gap-8">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Share & Discover</CardTitle>
+                            <CardTitle>{t("shareAndDiscover.title")}</CardTitle>
                             <CardDescription>
-                                Share your code snippets and discover amazing
-                                solutions from developers around the world.
+                                {t("shareAndDiscover.description")}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -60,10 +60,9 @@ export default function Home() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Smart Tagging</CardTitle>
+                            <CardTitle>{t("smartTagging.title")}</CardTitle>
                             <CardDescription>
-                                Tag your snippets by language, topic, and
-                                difficulty to make them easily discoverable.
+                                {t("smartTagging.description")}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -73,10 +72,11 @@ export default function Home() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Complexity Analysis</CardTitle>
+                            <CardTitle>
+                                {t("complexityAnalysis.title")}
+                            </CardTitle>
                             <CardDescription>
-                                Get basic time complexity analysis for your
-                                algorithms and understand their performance.
+                                {t("complexityAnalysis.description")}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -89,14 +89,13 @@ export default function Home() {
             {/* CTA Section */}
             <section className="text-center py-16 bg-muted/50 rounded-lg">
                 <h2 className="text-3xl font-bold mb-4">
-                    Ready to Get Started?
+                    {t("readyToGetStarted")}
                 </h2>
                 <p className="text-muted-foreground mb-8">
-                    Join thousands of developers sharing their knowledge and
-                    learning from each other.
+                    {t("joinDevelopers")}
                 </p>
                 <Link href="/register">
-                    <Button size="lg">Sign Up for Free</Button>
+                    <Button size="lg">{t("signUpForFree")}</Button>
                 </Link>
             </section>
         </div>
