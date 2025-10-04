@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  image     String?
+  bio       String?
+  username  String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  snippets Snippet[]
+
+  @@map("users")
+}
+
+model Snippet {
+  id          String   @id @default(cuid())
+  title       String
+  code        String
+  language    String
+  topic       String?
+  description String?
+  isPublic    Boolean  @default(true)
+  complexity  String?  // O(1), O(n), O(n²), etc.
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  tags     SnippetTag[]
+
+  @@map("snippets")
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+
+  // Relations
+  snippets SnippetTag[]
+
+  @@map("tags")
+}
+
+model SnippetTag {
+  id        String @id @default(cuid())
+  snippetId String
+  tagId     String
+
+  // Relations
+  snippet Snippet @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([snippetId, tagId])
+  @@map("snippet_tags")
+}
