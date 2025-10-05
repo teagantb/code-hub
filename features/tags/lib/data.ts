@@ -9,7 +9,6 @@ export async function getTags(search?: string): Promise<TagsResponse> {
             ? {
                   name: {
                       contains: search,
-                      mode: "insensitive" as const,
                   },
               }
             : {};
