@@ -5,8 +5,11 @@ import { redirect } from "next/navigation";
 import { getTokenFromCookies, verifyToken } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { CreateSnippetData, UpdateSnippetData } from "../types";
+import { Snippet } from "@prisma/client";
 
 export async function createSnippet(data: CreateSnippetData) {
+    let snippet: Snippet;
+
     try {
         // Check authentication
         const token = await getTokenFromCookies();
@@ -25,7 +28,7 @@ export async function createSnippet(data: CreateSnippetData) {
         }
 
         // Create snippet
-        const snippet = await prisma.snippet.create({
+        snippet = await prisma.snippet.create({
             data: {
                 title: data.title,
                 code: data.code,
@@ -55,15 +58,17 @@ export async function createSnippet(data: CreateSnippetData) {
                 });
             }
         }
+    } catch (error) {
+        console.error("Create snippet error:", error);
+        throw error;
+    }
 
+    if (snippet) {
         // Revalidate the snippets page
         revalidatePath("/snippets");
 
         // Redirect to the new snippet
         redirect(`/snippets/${snippet.id}`);
-    } catch (error) {
-        console.error("Create snippet error:", error);
-        throw error;
     }
 }
 
@@ -135,17 +140,17 @@ export async function updateSnippet(data: UpdateSnippetData) {
                 }
             }
         }
-
-        // Revalidate the snippets page and current snippet
-        revalidatePath("/snippets");
-        revalidatePath(`/snippets/${data.id}`);
-
-        // Redirect to the updated snippet
-        redirect(`/snippets/${data.id}`);
     } catch (error) {
         console.error("Update snippet error:", error);
         throw error;
     }
+
+    // Revalidate the snippets page and current snippet
+    revalidatePath("/snippets");
+    revalidatePath(`/snippets/${data.id}`);
+
+    // Redirect to the updated snippet
+    redirect(`/snippets/${data.id}`);
 }
 
 export async function deleteSnippet(snippetId: string) {
@@ -178,14 +183,14 @@ export async function deleteSnippet(snippetId: string) {
         await prisma.snippet.delete({
             where: { id: snippetId },
         });
-
-        // Revalidate the snippets page
-        revalidatePath("/snippets");
-
-        // Redirect to snippets list
-        redirect("/snippets");
     } catch (error) {
         console.error("Delete snippet error:", error);
         throw error;
     }
+
+    // Revalidate the snippets page
+    revalidatePath("/snippets");
+
+    // Redirect to snippets list
+    redirect("/snippets");
 }
