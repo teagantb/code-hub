@@ -5,12 +5,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslations, useLocale } from "next-intl";
 
 export function SnippetSearchForm() {
     const [search, setSearch] = useState("");
     const [language, setLanguage] = useState("");
+
     const router = useRouter();
     const searchParams = useSearchParams();
+    const t = useTranslations("snippets");
+    const locale = useLocale();
 
     // Initialize from URL params
     useState(() => {
@@ -20,31 +24,35 @@ export function SnippetSearchForm() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         const params = new URLSearchParams();
+
         if (search) params.set("search", search);
+
         if (language) params.set("language", language);
+
         params.set("page", "1"); // Reset to first page
 
-        router.push(`/snippets?${params.toString()}`);
+        router.push(`/${locale}/snippets?${params.toString()}`);
     };
 
     return (
         <Card className="mb-6">
             <CardContent className="pt-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="flex gap-4">
+                    <div className="flex flex-col md:flex-row gap-4">
                         <Input
-                            placeholder="Search snippets..."
+                            placeholder={t("searchPlaceholder")}
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="flex-1"
+                            className="flex-1 px-3 py-2"
                         />
                         <select
                             value={language}
                             onChange={(e) => setLanguage(e.target.value)}
                             className="px-3 py-2 border border-input bg-background rounded-md"
                         >
-                            <option value="">All Languages</option>
+                            <option value="">{t("allLanguages")}</option>
                             <option value="javascript">JavaScript</option>
                             <option value="typescript">TypeScript</option>
                             <option value="python">Python</option>
@@ -57,7 +65,7 @@ export function SnippetSearchForm() {
                             <option value="php">PHP</option>
                             <option value="ruby">Ruby</option>
                         </select>
-                        <Button type="submit">Search</Button>
+                        <Button type="submit">{t("searchButton")}</Button>
                     </div>
                 </form>
             </CardContent>

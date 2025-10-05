@@ -8,13 +8,18 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import type { Snippet } from "../types";
+import { CodeViewer } from "@/components/CodeViewer";
+import { useTranslations, useLocale } from "next-intl";
 
 interface SnippetCardProps {
     snippet: Snippet;
 }
 
 export function SnippetCard({ snippet }: SnippetCardProps) {
-    const truncateCode = (code: string, maxLength: number = 200) => {
+    const t = useTranslations("snippets");
+    const locale = useLocale();
+
+    const truncateCode = (code: string, maxLength: number = 1000) => {
         if (code.length <= maxLength) return code;
         return code.substring(0, maxLength) + "...";
     };
@@ -26,16 +31,16 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
                     <div>
                         <CardTitle className="text-xl">
                             <Link
-                                href={`/snippets/${snippet.id}`}
+                                href={`/${locale}/snippets/${snippet.id}`}
                                 className="hover:underline"
                             >
                                 {snippet.title}
                             </Link>
                         </CardTitle>
                         <CardDescription className="mt-1">
-                            by{" "}
+                            {t("byAuthor")}{" "}
                             <Link
-                                href={`/users/${
+                                href={`/${locale}/users/${
                                     snippet.author.username || snippet.author.id
                                 }`}
                                 className="hover:underline"
@@ -55,15 +60,18 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
                         {snippet.description}
                     </p>
                 )}
-                <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm">
-                    <code>{truncateCode(snippet.code)}</code>
-                </pre>
+                <div className="bg-muted p-0 rounded-md overflow-hidden text-sm">
+                    <CodeViewer
+                        code={truncateCode(snippet.code)}
+                        language={snippet.language}
+                    />
+                </div>
                 {snippet.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-4">
                         {snippet.tags.map((tag) => (
                             <Link
                                 key={tag.tag.id}
-                                href={`/tags/${encodeURIComponent(
+                                href={`/${locale}/tags/${encodeURIComponent(
                                     tag.tag.name
                                 )}`}
                             >

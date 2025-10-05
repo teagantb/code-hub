@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,11 +7,12 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { useLocale, useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 
-export default function Home() {
-    const locale = useLocale();
-    const t = useTranslations("home");
+export default async function Home() {
+    const t = await getTranslations("home");
+
+    const locale = await getLocale();
 
     return (
         <div className="container mx-auto px-4 py-8">

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 
 interface PaginationProps {
     currentPage: number;
@@ -12,10 +13,15 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
+    const t = useTranslations("snippets");
+    const locale = useLocale();
+
     const handlePageChange = (page: number) => {
         const params = new URLSearchParams(searchParams.toString());
+
         params.set("page", page.toString());
-        router.push(`/snippets?${params.toString()}`);
+
+        router.push(`/${locale}/snippets?${params.toString()}`);
     };
 
     if (totalPages <= 1) return null;
@@ -27,17 +33,17 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
             >
-                Previous
+                {t("previousButton")}
             </Button>
             <span className="flex items-center px-4">
-                Page {currentPage} of {totalPages}
+                {t("pageInfo", { current: currentPage, total: totalPages })}
             </span>
             <Button
                 variant="outline"
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
             >
-                Next
+                {t("nextButton")}
             </Button>
         </div>
     );

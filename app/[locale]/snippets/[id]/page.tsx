@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CodeViewer } from "@/components/CodeViewer";
 import { getSnippet } from "@/features/snippets/lib/data";
 import { SnippetActions } from "@/features/snippets/components/SnippetActions";
 import { ComplexityAnalysis } from "@/components/complexity-analysis";
@@ -11,7 +12,56 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
 interface SnippetPageProps {
-    params: Promise<{ id: string }>;
+    params: Promise<{ id: string; locale: string }>;
+}
+
+export async function generateMetadata({
+    params,
+}: SnippetPageProps): Promise<Metadata> {
+    const { id, locale } = await params;
+    const t = await getTranslations({ locale, namespace: "snippets" });
+
+    const snippet = await getSnippet(id);
+
+    if (!snippet) {
+        return {
+            title: t("snippetNotFound") || "Snippet Not Found",
+            description:
+                t("snippetNotFoundDescription") ||
+                "The requested snippet could not be found.",
+        };
+    }
+
+    const title = t("snippetPageTitle", { title: snippet.title });
+    const description = t("snippetPageDescription", {
+        title: snippet.title,
+        author: snippet.author.name,
+        language: snippet.language,
+    });
+
+    return {
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            type: "article",
+            authors: [snippet.author.name],
+            tags: snippet.tags.map((tag) => tag.tag.name),
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+        },
+        keywords: [
+            snippet.language,
+            ...snippet.tags.map((tag) => tag.tag.name),
+            snippet.topic,
+            "code snippet",
+            "programming",
+        ].filter(Boolean) as string[],
+    };
 }
 
 export default async function SnippetPage({ params }: SnippetPageProps) {
@@ -33,12 +83,21 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
         <div className="container mx-auto px-4 py-8 max-w-6xl">
             {/* Header */}
             <div className="mb-6">
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex flex-col md:flex-row justify-between items-start mb-4">
                     <div>
                         <h1 className="text-3xl font-bold mb-2">
                             {snippet.title}
                         </h1>
-                        <div className="flex items-center gap-4 text-muted-foreground">
+                        <div className="flex md:hidden items-center gap-2 mb-4">
+                            <Badge variant="secondary" className="text-sm">
+                                {snippet.language}
+                            </Badge>
+                            <Badge variant="outline" className="text-sm">
+                                {complexityAnalysis.complexity}
+                            </Badge>
+                        </div>
+
+                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-muted-foreground">
                             <span>
                                 By{" "}
                                 <Link
@@ -51,7 +110,7 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
                                     {snippet.author.name}
                                 </Link>
                             </span>
-                            <span>•</span>
+                            <span className="hidden md:block">•</span>
                             <span>
                                 {new Date(
                                     snippet.createdAt
@@ -59,7 +118,7 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
                             </span>
                             {snippet.updatedAt !== snippet.createdAt && (
                                 <>
-                                    <span>•</span>
+                                    <span className="hidden md:block">•</span>
                                     <span>
                                         Updated{" "}
                                         {new Date(
@@ -70,7 +129,7 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
                             )}
                         </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-2">
                         <Badge variant="secondary" className="text-sm">
                             {snippet.language}
                         </Badge>
@@ -87,9 +146,8 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
                 )}
 
                 {snippet.topic && (
-                    <p className="text-sm text-muted-foreground mb-4">
-                        Topic:{" "}
-                        <span className="font-medium">{snippet.topic}</span>
+                    <p className="text-base text-muted-foreground mb-4">
+                        <span className="font-bold">{snippet.topic}</span>
                     </p>
                 )}
 
@@ -124,9 +182,10 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
                             <CardTitle>Code</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <pre className="bg-muted p-6 rounded-md overflow-x-auto">
-                                <code className="text-sm">{snippet.code}</code>
-                            </pre>
+                            <CodeViewer
+                                code={snippet.code}
+                                language={snippet.language}
+                            />
                         </CardContent>
                     </Card>
                 </div>
@@ -135,22 +194,6 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
                     <ComplexityAnalysis analysis={complexityAnalysis} />
                 </div>
             </div>
-
-            {/* Actions */}
-            {/* <div className="mt-6 flex gap-4">
-                <Button
-                    onClick={() => {
-                        navigator.clipboard.writeText(snippet.code);
-                        // You could add a toast notification here
-                    }}
-                    variant="outline"
-                >
-                    Copy Code
-                </Button>
-                <Link href="/snippets">
-                    <Button variant="outline">Back to Snippets</Button>
-                </Link>
-            </div> */}
         </div>
     );
 }

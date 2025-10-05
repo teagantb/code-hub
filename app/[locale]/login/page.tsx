@@ -17,16 +17,19 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useTranslations, useLocale } from "next-intl";
 
 export default function LoginPage() {
+    const t = useTranslations("auth");
+    const tCommon = useTranslations("common");
+
+    const locale = useLocale();
+
+    const router = useRouter();
+
+    const { login } = useAuth();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-
-    const router = useRouter();
-    const { login } = useAuth();
-    const t = useTranslations("auth");
-    const tCommon = useTranslations("common");
-    const locale = useLocale();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -62,9 +65,7 @@ export default function LoginPage() {
             <Card>
                 <CardHeader className="text-center">
                     <CardTitle className="text-2xl">{t("login")}</CardTitle>
-                    <CardDescription>
-                        Enter your credentials to access your account
-                    </CardDescription>
+                    <CardDescription>{t("loginDescription")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">

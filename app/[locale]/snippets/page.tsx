@@ -62,7 +62,7 @@ export default async function SnippetsPage({
                 </div>
             ) : (
                 <>
-                    <div className="grid gap-6">
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {snippets.map((snippet) => (
                             <SnippetCard key={snippet.id} snippet={snippet} />
                         ))}

@@ -12,6 +12,8 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import type { TagSnippet } from "../types";
+import { CodeViewer } from "@/components/CodeViewer";
+import { useTranslations, useLocale } from "next-intl";
 
 interface TagSnippetsListProps {
     snippets: TagSnippet[];
@@ -28,8 +30,10 @@ export function TagSnippetsList({
     pagination,
 }: TagSnippetsListProps) {
     const [currentPage, setCurrentPage] = useState(pagination.page);
+    const t = useTranslations("snippets");
+    const locale = useLocale();
 
-    const truncateCode = (code: string, maxLength: number = 200) => {
+    const truncateCode = (code: string, maxLength: number = 1000) => {
         if (code.length <= maxLength) return code;
         return code.substring(0, maxLength) + "...";
     };
@@ -43,11 +47,9 @@ export function TagSnippetsList({
     if (snippets.length === 0) {
         return (
             <div className="text-center py-8">
-                <p className="text-muted-foreground">
-                    No snippets found for this tag yet.
-                </p>
-                <Link href="/snippets/new">
-                    <Button className="mt-4">Create First Snippet</Button>
+                <p className="text-muted-foreground">{t("noSnippetsFound")}</p>
+                <Link href={`/${locale}/snippets/new`}>
+                    <Button className="mt-4">{t("createFirstSnippet")}</Button>
                 </Link>
             </div>
         );
@@ -63,16 +65,16 @@ export function TagSnippetsList({
                                 <div>
                                     <CardTitle className="text-xl">
                                         <Link
-                                            href={`/snippets/${snippet.id}`}
+                                            href={`/${locale}/snippets/${snippet.id}`}
                                             className="hover:underline"
                                         >
                                             {snippet.title}
                                         </Link>
                                     </CardTitle>
                                     <CardDescription className="mt-1">
-                                        by{" "}
+                                        {t("byAuthor")}{" "}
                                         <Link
-                                            href={`/users/${
+                                            href={`/${locale}/users/${
                                                 snippet.author.username ||
                                                 snippet.author.id
                                             }`}
@@ -97,15 +99,18 @@ export function TagSnippetsList({
                                     {snippet.description}
                                 </p>
                             )}
-                            <pre className="bg-muted p-4 rounded-md overflow-x-auto text-sm">
-                                <code>{truncateCode(snippet.code)}</code>
-                            </pre>
+                            <div className="bg-muted p-0 rounded-md overflow-hidden text-sm">
+                                <CodeViewer
+                                    code={truncateCode(snippet.code)}
+                                    language={snippet.language}
+                                />
+                            </div>
                             {snippet.tags.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-4">
                                     {snippet.tags.map((tag) => (
                                         <Link
                                             key={tag.tag.id}
-                                            href={`/tags/${encodeURIComponent(
+                                            href={`/${locale}/tags/${encodeURIComponent(
                                                 tag.tag.name
                                             )}`}
                                         >
@@ -132,17 +137,19 @@ export function TagSnippetsList({
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
                     >
-                        Previous
+                        {t("previousButton")}
                     </Button>
                     <span className="flex items-center px-4">
-                        Page {currentPage} of {pagination.pages}
+                        {t("pageInfo")
+                            .replace("{current}", currentPage.toString())
+                            .replace("{total}", pagination.pages.toString())}
                     </span>
                     <Button
                         variant="outline"
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === pagination.pages}
                     >
-                        Next
+                        {t("nextButton")}
                     </Button>
                 </div>
             )}

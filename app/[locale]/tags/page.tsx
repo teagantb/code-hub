@@ -14,7 +14,6 @@ export default async function TagsPage({ searchParams }: TagsPageProps) {
     const { tags, error } = await getTags(search);
 
     const t = await getTranslations("tags");
-    const tCommon = await getTranslations("common");
 
     return (
         <div className="container mx-auto px-4 py-8">

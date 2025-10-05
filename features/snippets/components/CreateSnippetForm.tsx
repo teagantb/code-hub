@@ -18,40 +18,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { createSnippet } from "../lib/actions";
 import type { CreateSnippetData } from "../types";
 import { useTranslations, useLocale } from "next-intl";
-
-const LANGUAGES = [
-    "javascript",
-    "typescript",
-    "python",
-    "java",
-    "cpp",
-    "c",
-    "csharp",
-    "go",
-    "rust",
-    "php",
-    "ruby",
-    "swift",
-    "kotlin",
-    "scala",
-    "r",
-    "matlab",
-    "sql",
-    "html",
-    "css",
-    "scss",
-    "sass",
-    "less",
-    "json",
-    "xml",
-    "yaml",
-    "markdown",
-    "bash",
-    "shell",
-    "powershell",
-    "dockerfile",
-    "other",
-];
+import Editor from "react-simple-code-editor";
+import Prism from "prismjs";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-python";
+import "prismjs/themes/prism.css";
+import { LANGUAGES } from "../constant";
 
 export function CreateSnippetForm() {
     const [formData, setFormData] = useState<CreateSnippetData>({
@@ -123,7 +97,7 @@ export function CreateSnippetForm() {
         setError("");
 
         if (!user) {
-            setError("Authentication required");
+            setError(t("authRequired"));
             setLoading(false);
             return;
         }
@@ -142,9 +116,7 @@ export function CreateSnippetForm() {
             });
         } catch (error) {
             setError(
-                error instanceof Error
-                    ? error.message
-                    : "Failed to create snippet"
+                error instanceof Error ? error.message : t("createSnippetError")
             );
             setLoading(false);
         }
@@ -166,13 +138,13 @@ export function CreateSnippetForm() {
             <div className="container mx-auto px-4 py-8">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold mb-4">
-                        Authentication Required
+                        {t("authRequired")}
                     </h1>
                     <p className="text-muted-foreground mb-4">
-                        Authentication is required to create a snippet.
+                        {t("authRequiredMessage")}
                     </p>
-                    <Link href="/login">
-                        <Button>Login</Button>
+                    <Link href={`/${locale}/login`}>
+                        <Button>{t("loginButton")}</Button>
                     </Link>
                 </div>
             </div>
@@ -184,7 +156,7 @@ export function CreateSnippetForm() {
             <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl">{t("createNew")}</CardTitle>
-                    <CardDescription>Create a new snippet</CardDescription>
+                    <CardDescription>{t("createDescription")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -209,7 +181,7 @@ export function CreateSnippetForm() {
                                         })
                                     }
                                     required
-                                    placeholder="Snippet Title"
+                                    placeholder={t("snippetTitlePlaceholder")}
                                 />
                             </div>
 
@@ -230,7 +202,7 @@ export function CreateSnippetForm() {
                                     className="w-full px-3 py-2 border border-input bg-background rounded-md"
                                 >
                                     <option value="">
-                                        Select {t("language")}
+                                        {t("selectLanguage")}
                                     </option>
                                     {LANGUAGES.map((lang) => (
                                         <option key={lang} value={lang}>
@@ -255,14 +227,14 @@ export function CreateSnippetForm() {
                                         description: e.target.value,
                                     })
                                 }
-                                placeholder="Describe your snippet"
+                                placeholder={t("describeSnippet")}
                                 rows={3}
                             />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="topic">Topic</Label>
+                                <Label htmlFor="topic">{t("topic")}</Label>
                                 <Input
                                     id="topic"
                                     value={formData.topic}
@@ -272,7 +244,7 @@ export function CreateSnippetForm() {
                                             topic: e.target.value,
                                         })
                                     }
-                                    placeholder="Topic"
+                                    placeholder={t("topicPlaceholder")}
                                 />
                             </div>
 
@@ -294,7 +266,7 @@ export function CreateSnippetForm() {
                                                 setShowSuggestions(true);
                                             }
                                         }}
-                                        placeholder={t("tags")}
+                                        placeholder={t("tagsPlaceholder")}
                                     />
                                     {showSuggestions &&
                                         tagSuggestions.length > 0 && (
@@ -323,19 +295,54 @@ export function CreateSnippetForm() {
 
                         <div className="space-y-2">
                             <Label htmlFor="code">{t("code")} *</Label>
-                            <Textarea
-                                id="code"
+                            <Editor
                                 value={formData.code}
-                                onChange={(e) =>
+                                onValueChange={(code) =>
                                     setFormData({
                                         ...formData,
-                                        code: e.target.value,
+                                        code: code,
                                     })
                                 }
-                                required
-                                placeholder={t("code")}
-                                rows={15}
-                                className="font-mono text-sm"
+                                highlight={(code) => {
+                                    const lang = (
+                                        formData.language || ""
+                                    ).toLowerCase();
+
+                                    if (lang === "javascript") {
+                                        return Prism.highlight(
+                                            code,
+                                            Prism.languages.javascript,
+                                            "javascript"
+                                        );
+                                    }
+
+                                    if (lang === "typescript") {
+                                        return Prism.highlight(
+                                            code,
+                                            Prism.languages.typescript,
+                                            "typescript"
+                                        );
+                                    }
+
+                                    if (lang === "python") {
+                                        return Prism.highlight(
+                                            code,
+                                            Prism.languages.python,
+                                            "python"
+                                        );
+                                    }
+
+                                    return code; // fallback: show as plain text
+                                }}
+                                padding={10}
+                                style={{
+                                    fontFamily:
+                                        '"Fira code", "Fira Mono", monospace',
+                                    fontSize: 12,
+                                    borderRadius: "5px",
+                                    border: "1px solid #ccc",
+                                    minHeight: "200px",
+                                }}
                             />
                         </div>
 

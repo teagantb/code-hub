@@ -5,11 +5,14 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslations, useLocale } from "next-intl";
 
 export function TagSearchForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [search, setSearch] = useState(searchParams.get("search") || "");
+    const t = useTranslations("snippets");
+    const locale = useLocale();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -17,7 +20,7 @@ export function TagSearchForm() {
         if (search) {
             params.set("search", search);
         }
-        router.push(`/tags?${params.toString()}`);
+        router.push(`/${locale}/tags?${params.toString()}`);
     };
 
     return (
@@ -26,12 +29,12 @@ export function TagSearchForm() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="flex gap-2">
                         <Input
-                            placeholder="Search tags..."
+                            placeholder={t("tagSearchPlaceholder")}
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             className="flex-1"
                         />
-                        <Button type="submit">Search</Button>
+                        <Button type="submit">{t("tagSearchButton")}</Button>
                     </div>
                 </form>
             </CardContent>

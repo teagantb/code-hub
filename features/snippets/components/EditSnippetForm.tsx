@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import Editor from "react-simple-code-editor";
+import Prism from "prismjs";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-python";
+import "prismjs/themes/prism.css";
 import {
     Card,
     CardContent,
@@ -16,40 +23,7 @@ import {
 import { updateSnippet } from "../lib/actions";
 import type { Snippet, UpdateSnippetData } from "../types";
 import { useTranslations, useLocale } from "next-intl";
-
-const LANGUAGES = [
-    "javascript",
-    "typescript",
-    "python",
-    "java",
-    "cpp",
-    "c",
-    "csharp",
-    "go",
-    "rust",
-    "php",
-    "ruby",
-    "swift",
-    "kotlin",
-    "scala",
-    "r",
-    "matlab",
-    "sql",
-    "html",
-    "css",
-    "scss",
-    "sass",
-    "less",
-    "json",
-    "xml",
-    "yaml",
-    "markdown",
-    "bash",
-    "shell",
-    "powershell",
-    "dockerfile",
-    "other",
-];
+import { LANGUAGES } from "../constant";
 
 interface EditSnippetFormProps {
     snippet: Snippet;
@@ -95,9 +69,7 @@ export function EditSnippetForm({ snippet }: EditSnippetFormProps) {
             });
         } catch (error) {
             setError(
-                error instanceof Error
-                    ? error.message
-                    : "Failed to update snippet"
+                error instanceof Error ? error.message : t("updateSnippetError")
             );
             setLoading(false);
         }
@@ -110,7 +82,7 @@ export function EditSnippetForm({ snippet }: EditSnippetFormProps) {
                     <CardTitle className="text-2xl">
                         {t("editSnippet")}
                     </CardTitle>
-                    <CardDescription>Update your code snippet</CardDescription>
+                    <CardDescription>{t("editDescription")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -135,7 +107,7 @@ export function EditSnippetForm({ snippet }: EditSnippetFormProps) {
                                         })
                                     }
                                     required
-                                    placeholder="Enter snippet title"
+                                    placeholder={t("snippetTitlePlaceholder")}
                                 />
                             </div>
 
@@ -155,7 +127,9 @@ export function EditSnippetForm({ snippet }: EditSnippetFormProps) {
                                     required
                                     className="w-full px-3 py-2 border border-input bg-background rounded-md"
                                 >
-                                    <option value="">Select a language</option>
+                                    <option value="">
+                                        {t("selectLanguagePlaceholder")}
+                                    </option>
                                     {LANGUAGES.map((lang) => (
                                         <option key={lang} value={lang}>
                                             {lang.charAt(0).toUpperCase() +
@@ -167,7 +141,9 @@ export function EditSnippetForm({ snippet }: EditSnippetFormProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="description">Description</Label>
+                            <Label htmlFor="description">
+                                {t("descriptionLabel")}
+                            </Label>
                             <Textarea
                                 id="description"
                                 value={formData.description}
@@ -177,14 +153,14 @@ export function EditSnippetForm({ snippet }: EditSnippetFormProps) {
                                         description: e.target.value,
                                     })
                                 }
-                                placeholder="Describe what this snippet does"
+                                placeholder={t("describeSnippetPlaceholder")}
                                 rows={3}
                             />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="topic">Topic</Label>
+                                <Label htmlFor="topic">{t("topic")}</Label>
                                 <Input
                                     id="topic"
                                     value={formData.topic}
@@ -194,38 +170,68 @@ export function EditSnippetForm({ snippet }: EditSnippetFormProps) {
                                             topic: e.target.value,
                                         })
                                     }
-                                    placeholder="e.g., algorithms, web development"
+                                    placeholder={t("topicPlaceholder")}
                                 />
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="tags">Tags</Label>
+                                <Label htmlFor="tags">{t("tags")}</Label>
                                 <Input
                                     id="tags"
                                     value={tagsInput}
                                     onChange={(e) =>
                                         setTagsInput(e.target.value)
                                     }
-                                    placeholder="comma-separated tags"
+                                    placeholder={t("tagsPlaceholder")}
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="code">Code *</Label>
-                            <Textarea
-                                id="code"
+                            <Label htmlFor="code">{t("code")} *</Label>
+                            <Editor
                                 value={formData.code}
-                                onChange={(e) =>
+                                onValueChange={(code) =>
                                     setFormData({
                                         ...formData,
-                                        code: e.target.value,
+                                        code: code,
                                     })
                                 }
-                                required
-                                placeholder="Paste your code here"
-                                rows={15}
-                                className="font-mono text-sm"
+                                highlight={(code) => {
+                                    const lang = (
+                                        formData.language || ""
+                                    ).toLowerCase();
+                                    if (lang === "javascript") {
+                                        return Prism.highlight(
+                                            code,
+                                            Prism.languages.javascript,
+                                            "javascript"
+                                        );
+                                    }
+                                    if (lang === "typescript") {
+                                        return Prism.highlight(
+                                            code,
+                                            Prism.languages.typescript,
+                                            "typescript"
+                                        );
+                                    }
+                                    if (lang === "python") {
+                                        return Prism.highlight(
+                                            code,
+                                            Prism.languages.python,
+                                            "python"
+                                        );
+                                    }
+                                    return code;
+                                }}
+                                padding={10}
+                                style={{
+                                    fontFamily:
+                                        '"Fira code", "Fira Mono", monospace',
+                                    fontSize: 12,
+                                    borderRadius: "5px",
+                                    border: "1px solid #ccc",
+                                }}
                             />
                         </div>
 
@@ -237,10 +243,12 @@ export function EditSnippetForm({ snippet }: EditSnippetFormProps) {
                                 type="button"
                                 variant="outline"
                                 onClick={() =>
-                                    router.push(`/snippets/${snippet.id}`)
+                                    router.push(
+                                        `/${locale}/snippets/${snippet.id}`
+                                    )
                                 }
                             >
-                                Cancel
+                                {tCommon("cancel")}
                             </Button>
                         </div>
                     </form>

@@ -16,7 +16,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages} locale={locale}>
             <Providers>
                 <Navbar />
-                <main className="min-h-screen">{children}</main>
+                <main className="min-h-[80vh]">{children}</main>
             </Providers>
         </NextIntlClientProvider>
     );

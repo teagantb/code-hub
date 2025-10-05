@@ -17,6 +17,15 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useTranslations, useLocale } from "next-intl";
 
 export default function RegisterPage() {
+    const t = useTranslations("auth");
+    const tCommon = useTranslations("common");
+
+    const router = useRouter();
+
+    const locale = useLocale();
+
+    const { login } = useAuth();
+
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -24,12 +33,6 @@ export default function RegisterPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-
-    const router = useRouter();
-    const { login } = useAuth();
-    const t = useTranslations("auth");
-    const tCommon = useTranslations("common");
-    const locale = useLocale();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -82,7 +85,9 @@ export default function RegisterPage() {
             <Card>
                 <CardHeader className="text-center">
                     <CardTitle className="text-2xl">{t("register")}</CardTitle>
-                    <CardDescription>Sign up for a new account</CardDescription>
+                    <CardDescription>
+                        {t("registerDescription")}
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">

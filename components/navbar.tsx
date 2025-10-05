@@ -1,55 +1,60 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslations, useLocale } from "next-intl";
 import LanguageSwitcher from "./language-switcher";
-import { Menu, X } from "lucide-react";
+import { Code2, Menu, Search } from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 
 export default function Navbar() {
     const { user, loading, logout } = useAuth();
     const t = useTranslations("navigation");
     const locale = useLocale();
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleLogout = async () => {
         await logout();
-        setIsMobileMenuOpen(false);
-    };
-
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
     return (
-        <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="container mx-auto px-4">
-                <div className="flex h-16 items-center justify-between">
-                    {/* Logo */}
-                    <div className="flex items-center space-x-4">
-                        <Link href="/" className="flex items-center space-x-2">
-                            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                                <span className="text-primary-foreground font-bold text-sm">
-                                    CH
-                                </span>
-                            </div>
-                            <span className="font-bold text-xl">Code Hub</span>
-                        </Link>
-                    </div>
+        <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="container px-4 md:px-0 mx-auto flex h-16 items-center justify-between">
+                <div className="flex-1 flex items-center gap-6">
+                    <Link href="/" className="flex items-center gap-2">
+                        <div className="h-8 w-10 rounded-lg bg-primary flex items-center justify-center">
+                            <span className="text-primary-foreground font-bold text-sm">
+                                CH
+                            </span>
+                        </div>
+                        <span className="font-bold text-xl">Code Hub</span>
+                    </Link>
 
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-4">
-                        <Link href={`/${locale}/snippets`}>
-                            <Button variant="ghost">{t("snippets")}</Button>
+                    <nav className="hidden md:flex items-center gap-6">
+                        <Link
+                            href={`/${locale}/snippets`}
+                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            {t("snippets")}
                         </Link>
-                        {user && (
-                            <Link href={`/${locale}/snippets/new`}>
-                                <Button variant="ghost">Create Snippet</Button>
-                            </Link>
-                        )}
+                        <Link
+                            href={`/${locale}/tags`}
+                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            Tags
+                        </Link>
+                    </nav>
+                </div>
 
+                <div className="flex items-center justify-end gap-4">
+                    <div className="hidden md:flex items-center gap-2">
                         <LanguageSwitcher />
 
                         {loading ? (
@@ -89,106 +94,73 @@ export default function Navbar() {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
-                    <div className="md:hidden">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={toggleMobileMenu}
-                            className="p-2"
-                        >
-                            {isMobileMenuOpen ? (
-                                <X className="h-5 w-5" />
-                            ) : (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild className="md:hidden">
+                            <Button variant="ghost" size="icon">
                                 <Menu className="h-5 w-5" />
-                            )}
-                        </Button>
-                    </div>
-                </div>
-
-                {/* Mobile Navigation Menu */}
-                {isMobileMenuOpen && (
-                    <div className="md:hidden border-t bg-background/95 backdrop-blur">
-                        <div className="px-2 pt-2 pb-3 space-y-1">
-                            <Link
-                                href={`/${locale}/snippets`}
-                                className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-accent-foreground"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                {t("snippets")}
-                            </Link>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuItem asChild>
+                                <Link href={`/${locale}/snippets`}>
+                                    {t("snippets")}
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href={`/${locale}/tags`}>Tags</Link>
+                            </DropdownMenuItem>
 
                             {user && (
-                                <Link
-                                    href={`/${locale}/snippets/new`}
-                                    className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-accent-foreground"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    Create Snippet
-                                </Link>
+                                <DropdownMenuItem asChild>
+                                    <Link href={`/${locale}/snippets/new`}>
+                                        Create Snippet
+                                    </Link>
+                                </DropdownMenuItem>
                             )}
 
-                            <div className="px-3 py-2">
+                            <div className="px-2 py-1">
                                 <LanguageSwitcher />
                             </div>
 
+                            <DropdownMenuSeparator />
+
                             {loading ? (
-                                <div className="px-3 py-2">
+                                <div className="px-2 py-1">
                                     <div className="h-8 w-8 animate-pulse bg-muted rounded"></div>
                                 </div>
                             ) : user ? (
-                                <div className="space-y-2">
-                                    <Link
-                                        href={`/${locale}/users/${
-                                            user.username || user.id
-                                        }`}
-                                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-accent hover:text-accent-foreground"
-                                        onClick={() =>
-                                            setIsMobileMenuOpen(false)
-                                        }
-                                    >
-                                        {user.name}
-                                    </Link>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={handleLogout}
-                                        className="w-full justify-start ml-3"
-                                    >
+                                <>
+                                    <DropdownMenuItem asChild>
+                                        <Link
+                                            href={`/${locale}/users/${
+                                                user.username || user.id
+                                            }`}
+                                        >
+                                            {user.name}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={handleLogout}>
                                         {t("logout")}
-                                    </Button>
-                                </div>
+                                    </DropdownMenuItem>
+                                </>
                             ) : (
-                                <div className="space-y-2 px-3">
-                                    <Link href={`/${locale}/login`}>
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            className="w-full"
-                                            onClick={() =>
-                                                setIsMobileMenuOpen(false)
-                                            }
-                                        >
+                                <>
+                                    <DropdownMenuItem asChild>
+                                        <Link href={`/${locale}/login`}>
                                             {t("login")}
-                                        </Button>
-                                    </Link>
-                                    <Link href={`/${locale}/register`}>
-                                        <Button
-                                            size="sm"
-                                            className="w-full"
-                                            onClick={() =>
-                                                setIsMobileMenuOpen(false)
-                                            }
-                                        >
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href={`/${locale}/register`}>
                                             {t("register")}
-                                        </Button>
-                                    </Link>
-                                </div>
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </>
                             )}
-                        </div>
-                    </div>
-                )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
-        </nav>
+        </header>
     );
 }
