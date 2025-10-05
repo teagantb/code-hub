@@ -14,6 +14,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 export default function Navbar() {
     const { user, loading, logout } = useAuth();
@@ -29,12 +30,12 @@ export default function Navbar() {
             <div className="container px-4 md:px-0 mx-auto flex h-16 items-center justify-between">
                 <div className="flex-1 flex items-center gap-6">
                     <Link href="/" className="flex items-center gap-2">
-                        <div className="h-8 w-10 rounded-lg bg-primary flex items-center justify-center">
-                            <span className="text-primary-foreground font-bold text-sm">
-                                CH
-                            </span>
-                        </div>
-                        <span className="font-bold text-xl">Code Hub</span>
+                        <Image
+                            src="/logo.png"
+                            alt="Code Hub"
+                            width={102}
+                            height={40}
+                        />
                     </Link>
 
                     <nav className="hidden md:flex items-center gap-6">
