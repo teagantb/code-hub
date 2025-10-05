@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { getLocale } from "next-intl/server";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -14,26 +12,19 @@ const geistMono = Geist_Mono({
     subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-    title: "CodeHub - Share Code Snippets",
-    description:
-        "A platform for developers to share code snippets, tag them, and get time complexity analysis",
-};
-
-export default function RootLayout({
+export default async function RootLayout({
     children,
-}: Readonly<{
+}: {
     children: React.ReactNode;
-}>) {
+}) {
+    const locale = await getLocale();
+
     return (
-        <html lang="en">
+        <html lang={locale}>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <AuthProvider>
-                    <Navbar />
-                    <main className="min-h-screen">{children}</main>
-                </AuthProvider>
+                {children}
             </body>
         </html>
     );

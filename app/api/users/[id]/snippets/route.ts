@@ -3,17 +3,16 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const { id: userId } = await params;
         const { searchParams } = new URL(request.url);
         const page = parseInt(searchParams.get("page") || "1");
         const limit = parseInt(searchParams.get("limit") || "10");
         const language = searchParams.get("language");
         const search = searchParams.get("search");
         const skip = (page - 1) * limit;
-
-        const userId = params.id;
 
         // Check if user exists
         const user = await prisma.user.findFirst({

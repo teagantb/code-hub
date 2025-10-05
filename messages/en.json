@@ -1,186 +1,126 @@
 {
     "common": {
         "loading": "Loading...",
-        "error": "An error occurred",
-        "tryAgain": "Try Again",
-        "search": "Search",
-        "filter": "Filter",
-        "previous": "Previous",
-        "next": "Next",
-        "page": "Page",
-        "of": "of",
+        "error": "Error",
+        "success": "Success",
         "cancel": "Cancel",
         "save": "Save",
         "edit": "Edit",
         "delete": "Delete",
         "create": "Create",
-        "update": "Update",
-        "copy": "Copy",
-        "back": "Back"
+        "search": "Search",
+        "submit": "Submit",
+        "back": "Back",
+        "next": "Next",
+        "previous": "Previous"
     },
-    "navbar": {
-        "title": "CodeHub",
-        "browseSnippets": "Browse Snippets",
-        "createSnippet": "Create Snippet",
+    "navigation": {
+        "home": "Home",
+        "snippets": "Snippets",
+        "tags": "Tags",
         "login": "Login",
-        "signUp": "Sign Up",
+        "register": "Register",
         "logout": "Logout",
-        "welcome": "Welcome, {name}"
+        "profile": "Profile"
+    },
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "logout": "Logout",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "name": "Name",
+        "loginSuccess": "Login successful",
+        "registerSuccess": "Registration successful",
+        "loginError": "Login failed",
+        "registerError": "Registration failed",
+        "noAccount": "Don't have an account?",
+        "hasAccount": "Already have an account?",
+        "signUp": "Sign up",
+        "signIn": "Sign in"
+    },
+    "snippets": {
+        "title": "Code Snippets",
+        "createNew": "Create New Snippet",
+        "editSnippet": "Edit Snippet",
+        "deleteSnippet": "Delete Snippet",
+        "snippetTitle": "Snippet Title",
+        "description": "Description",
+        "code": "Code",
+        "language": "Language",
+        "tags": "Tags",
+        "public": "Public",
+        "private": "Private",
+        "noSnippets": "No snippets found",
+        "searchPlaceholder": "Search snippets...",
+        "createdBy": "Created by",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at",
+        "discoverShare": "Discover and share code snippets",
+        "tryAgain": "Try Again"
+    },
+    "tags": {
+        "title": "Tags",
+        "noTags": "No tags found",
+        "tagName": "Tag Name",
+        "snippetCount": "Snippet Count",
+        "browseAll": "Browse all available tags",
+        "tagNotFound": "Tag Not Found",
+        "tagNotExist": "The tag you're looking for doesn't exist.",
+        "browseAllTags": "Browse All Tags",
+        "allTags": "All Tags"
+    },
+    "users": {
+        "profile": "User Profile",
+        "snippets": "User Snippets",
+        "noSnippets": "This user has no public snippets",
+        "userNotFound": "User Not Found",
+        "userNotFoundDescription": "The user you're looking for doesn't exist or has been removed.",
+        "browseSnippets": "Browse Snippets",
+        "noSnippetsShared": "No snippets shared yet",
+        "noSnippetsMatch": "No snippets match your search"
     },
     "home": {
-        "title": "Welcome to CodeHub",
-        "subtitle": "Share your code snippets, tag them by language and topic, and get basic time complexity analysis. Connect with developers worldwide.",
+        "title": "Code Hub",
+        "subtitle": "Share, discover, and organize code snippets with intelligent tagging and complexity analysis",
         "createFirstSnippet": "Create Your First Snippet",
         "browseSnippets": "Browse Snippets",
-        "whyChooseCodeHub": "Why Choose CodeHub?",
-        "shareAndDiscover": {
+        "whyChooseTitle": "Why Choose Code Hub?",
+        "shareDiscover": {
             "title": "Share & Discover",
-            "description": "Share your code snippets and discover amazing solutions from developers around the world."
+            "description": "Share your code snippets with the community and discover amazing solutions from other developers"
         },
         "smartTagging": {
             "title": "Smart Tagging",
-            "description": "Tag your snippets by language, topic, and difficulty to make them easily discoverable."
+            "description": "Automatically tag your snippets with relevant technologies and concepts for easy discovery"
         },
         "complexityAnalysis": {
             "title": "Complexity Analysis",
-            "description": "Get basic time complexity analysis for your algorithms and understand their performance."
+            "description": "Get insights into your code complexity and performance with our built-in analysis tools"
         },
-        "readyToGetStarted": "Ready to Get Started?",
-        "joinDevelopers": "Join thousands of developers sharing their knowledge and learning from each other.",
-        "signUpForFree": "Sign Up for Free"
+        "readyToStart": "Ready to Get Started?",
+        "joinDevelopers": "Join thousands of developers sharing and discovering code",
+        "signUpFree": "Sign Up for Free"
     },
-    "auth": {
-        "login": {
-            "title": "Welcome Back",
-            "subtitle": "Sign in to your CodeHub account",
-            "email": "Email",
-            "password": "Password",
-            "signIn": "Sign In",
-            "signingIn": "Signing in...",
-            "dontHaveAccount": "Don't have an account?",
-            "signUp": "Sign up"
+    "complexity": {
+        "title": "Time Complexity Analysis",
+        "estimatedComplexity": "Estimated Complexity",
+        "confidence": "Confidence",
+        "explanation": "Explanation",
+        "patterns": "Detected Patterns",
+        "confidenceLevels": {
+            "high": "High",
+            "medium": "Medium",
+            "low": "Low"
         },
-        "register": {
-            "title": "Create Account",
-            "subtitle": "Join CodeHub and start sharing your code snippets",
-            "fullName": "Full Name",
-            "email": "Email",
-            "username": "Username (optional)",
-            "password": "Password",
-            "confirmPassword": "Confirm Password",
-            "createAccount": "Create Account",
-            "creatingAccount": "Creating account...",
-            "alreadyHaveAccount": "Already have an account?",
-            "signIn": "Sign in"
-        },
-        "errors": {
-            "nameEmailPasswordRequired": "Name, email, and password are required",
-            "passwordTooShort": "Password must be at least 6 characters long",
-            "userExists": "User with this email or username already exists",
-            "invalidCredentials": "Invalid email or password",
-            "passwordsDoNotMatch": "Passwords do not match",
-            "registrationFailed": "Registration failed",
-            "loginFailed": "Login failed",
-            "authRequired": "You must be logged in to create a snippet"
-        }
-    },
-    "snippets": {
-        "title": "Browse Snippets",
-        "subtitle": "Discover amazing code snippets from developers worldwide",
-        "searchPlaceholder": "Search snippets...",
-        "allLanguages": "All Languages",
-        "noSnippetsFound": "No snippets found. Be the first to create one!",
-        "createSnippet": "Create Snippet",
-        "loadingSnippets": "Loading snippets...",
-        "by": "by",
-        "copyCode": "Copy Code",
-        "backToSnippets": "Back to Snippets",
-        "search": "Search",
-        "tryAgain": "Try Again",
-        "previous": "Previous",
-        "next": "Next",
-        "page": "Page",
-        "of": "of",
-        "create": {
-            "title": "Create New Snippet",
-            "subtitle": "Share your code with the CodeHub community",
-            "snippetTitle": "Title",
-            "language": "Language",
-            "description": "Description",
-            "topic": "Topic",
-            "tags": "Tags",
-            "code": "Code",
-            "selectLanguage": "Select a language",
-            "describeSnippet": "Describe what this snippet does",
-            "topicPlaceholder": "e.g., algorithms, web development",
-            "tagsPlaceholder": "comma-separated tags",
-            "codePlaceholder": "Paste your code here",
-            "creating": "Creating...",
-            "createSnippet": "Create Snippet",
-            "loading": "Loading...",
-            "authRequired": "Authentication Required",
-            "authRequiredDescription": "You must be logged in to create a snippet.",
-            "login": "Login",
-            "errors": {
-                "titleCodeLanguageRequired": "Title, code, and language are required",
-                "createFailed": "Failed to create snippet",
-                "authRequired": "Authentication Required",
-                "authRequiredDescription": "You must be logged in to create a snippet.",
-                "login": "Login"
-            }
-        },
-        "view": {
-            "snippetNotFound": "Snippet Not Found",
-            "snippetNotFoundDescription": "The snippet you're looking for doesn't exist.",
-            "loadingSnippet": "Loading snippet...",
-            "updated": "Updated",
-            "topic": "Topic",
-            "code": "Code",
-            "copyCode": "Copy Code",
-            "backToSnippets": "Back to Snippets",
-            "by": "by",
-            "edit": "Edit",
-            "delete": "Delete",
-            "deleting": "Deleting..."
-        },
-        "edit": {
-            "title": "Edit Snippet",
-            "subtitle": "Update your code snippet",
-            "saving": "Saving...",
-            "updateSnippet": "Update Snippet",
-            "accessDenied": "Access Denied",
-            "accessDeniedDescription": "You can only edit your own snippets.",
-            "viewSnippet": "View Snippet"
-        }
-    },
-    "tags": {
-        "title": "Browse Tags",
-        "subtitle": "Discover code snippets by programming topics and technologies",
-        "searchPlaceholder": "Search tags...",
-        "noTagsFound": "No tags found matching your search.",
-        "noTagsAvailable": "No tags available yet.",
-        "snippets": "snippet",
-        "snippetsPlural": "snippets",
-        "viewSnippets": "View {count} code {snippet} tagged with {tag}",
-        "noSnippetsYet": "No snippets yet",
-        "loading": "Loading tags..."
-    },
-    "users": {
-        "profile": {
-            "title": "User Profile",
-            "userNotFound": "User Not Found",
-            "userNotFoundDescription": "The user you're looking for doesn't exist.",
-            "loadingProfile": "Loading profile...",
-            "joined": "Joined",
-            "snippet": "snippet",
-            "snippets": "snippets",
-            "languages": "Languages",
-            "popularTags": "Popular Tags",
-            "searchPlaceholder": "Search snippets...",
-            "allLanguages": "All Languages",
-            "noSnippetsShared": "No snippets shared yet.",
-            "noSnippetsMatch": "No snippets match your search criteria.",
-            "loadingSnippets": "Loading snippets..."
+        "complexityTypes": {
+            "O(1)": "O(1) - Constant Time",
+            "O(log n)": "O(log n) - Logarithmic Time",
+            "O(n)": "O(n) - Linear Time",
+            "O(n log n)": "O(n log n) - Linearithmic Time",
+            "O(n²)": "O(n²) - Quadratic Time",
+            "O(2^n)": "O(2^n) - Exponential Time"
         }
     }
 }

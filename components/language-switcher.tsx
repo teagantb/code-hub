@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
@@ -8,7 +8,6 @@ export default function LanguageSwitcher() {
     const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
-    const t = useTranslations("common");
 
     const switchLanguage = (newLocale: string) => {
         // Remove the current locale from the pathname
@@ -18,7 +17,7 @@ export default function LanguageSwitcher() {
     };
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2">
             <Button
                 variant={locale === "en" ? "default" : "outline"}
                 size="sm"

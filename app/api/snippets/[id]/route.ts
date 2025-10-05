@@ -4,11 +4,12 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const { id } = await params;
         const snippet = await prisma.snippet.findUnique({
-            where: { id: params.id },
+            where: { id },
             include: {
                 author: {
                     select: {
@@ -64,9 +65,11 @@ export async function GET(
 
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const { id } = await params;
+
         // Check authentication
         const token = await getTokenFromCookies();
         if (!token) {
@@ -86,7 +89,7 @@ export async function PUT(
 
         // Check if snippet exists and user is the author
         const existingSnippet = await prisma.snippet.findUnique({
-            where: { id: params.id },
+            where: { id },
         });
 
         if (!existingSnippet) {
@@ -116,7 +119,7 @@ export async function PUT(
 
         // Update snippet
         const updatedSnippet = await prisma.snippet.update({
-            where: { id: params.id },
+            where: { id },
             data: {
                 title,
                 code,
@@ -130,7 +133,7 @@ export async function PUT(
         if (tags !== undefined) {
             // Remove existing tags
             await prisma.snippetTag.deleteMany({
-                where: { snippetId: params.id },
+                where: { snippetId: id },
             });
 
             // Add new tags
@@ -144,7 +147,7 @@ export async function PUT(
 
                     await prisma.snippetTag.create({
                         data: {
-                            snippetId: params.id,
+                            snippetId: id,
                             tagId: tag.id,
                         },
                     });
@@ -154,7 +157,7 @@ export async function PUT(
 
         // Fetch updated snippet with author and tags
         const snippet = await prisma.snippet.findUnique({
-            where: { id: params.id },
+            where: { id },
             include: {
                 author: {
                     select: {
@@ -187,9 +190,11 @@ export async function PUT(
 
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const { id } = await params;
+
         // Check authentication
         const token = await getTokenFromCookies();
         if (!token) {
@@ -209,7 +214,7 @@ export async function DELETE(
 
         // Check if snippet exists and user is the author
         const existingSnippet = await prisma.snippet.findUnique({
-            where: { id: params.id },
+            where: { id },
         });
 
         if (!existingSnippet) {
@@ -228,7 +233,7 @@ export async function DELETE(
 
         // Delete snippet (cascade will handle related records)
         await prisma.snippet.delete({
-            where: { id: params.id },
+            where: { id },
         });
 
         return NextResponse.json({
