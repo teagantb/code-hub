@@ -10,6 +10,7 @@
         "create": "Tạo mới",
         "search": "Tìm kiếm",
         "submit": "Gửi",
+        "reset": "Đặt lại",
         "back": "Quay lại",
         "next": "Tiếp theo",
         "previous": "Trước đó"
@@ -21,7 +22,8 @@
         "login": "Đăng nhập",
         "register": "Đăng ký",
         "logout": "Đăng xuất",
-        "profile": "Hồ sơ"
+        "profile": "Hồ sơ",
+        "createSnippet": "Tạo Đoạn Mã"
     },
     "auth": {
         "login": "Đăng nhập",
@@ -50,25 +52,20 @@
         "snippetTitle": "Tiêu đề đoạn mã",
         "description": "Mô tả",
         "code": "Mã nguồn",
-        "language": "Ngôn ngữ",
+        "language": "Tất Cả Ngôn ngữ",
         "tags": "Thẻ",
         "public": "Công khai",
         "private": "Riêng tư",
         "noSnippets": "Không tìm thấy đoạn mã nào",
-        "searchPlaceholder": "Tìm kiếm đoạn mã...",
         "createdBy": "Tạo bởi",
         "createdAt": "Tạo lúc",
         "updatedAt": "Cập nhật lúc",
         "discoverShare": "Khám phá và chia sẻ các đoạn mã",
         "tryAgain": "Thử lại",
         "createDescription": "Tạo một đoạn mã mới",
-        "snippetTitlePlaceholder": "Tiêu đề đoạn mã",
         "selectLanguage": "Chọn ngôn ngữ",
         "describeSnippet": "Mô tả đoạn mã của bạn",
         "topic": "Chủ đề",
-        "topicPlaceholder": "Chủ đề",
-        "tagsPlaceholder": "Thẻ",
-        "codePlaceholder": "Mã nguồn",
         "authRequired": "Yêu cầu xác thực",
         "authRequiredMessage": "Cần xác thực để tạo đoạn mã.",
         "loginButton": "Đăng nhập",
@@ -132,7 +129,8 @@
         "userNotFoundDescription": "Người dùng bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.",
         "browseSnippets": "Duyệt Đoạn Mã",
         "noSnippetsShared": "Chưa chia sẻ đoạn mã nào",
-        "noSnippetsMatch": "Không có đoạn mã nào phù hợp với tìm kiếm của bạn"
+        "noSnippetsMatch": "Không có đoạn mã nào phù hợp với tìm kiếm của bạn",
+        "createNew": "Tạo Đoạn Mã Mới"
     },
     "home": {
         "title": "Code Hub",

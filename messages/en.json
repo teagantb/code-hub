@@ -10,6 +10,7 @@
         "create": "Create",
         "search": "Search",
         "submit": "Submit",
+        "reset": "Reset",
         "back": "Back",
         "next": "Next",
         "previous": "Previous"
@@ -21,7 +22,8 @@
         "login": "Login",
         "register": "Register",
         "logout": "Logout",
-        "profile": "Profile"
+        "profile": "Profile",
+        "createSnippet": "Create Snippet"
     },
     "auth": {
         "login": "Login",
@@ -66,18 +68,13 @@
         "selectLanguage": "Select Language",
         "describeSnippet": "Describe your snippet",
         "topic": "Topic",
-        "topicPlaceholder": "Topic",
-        "tagsPlaceholder": "Tags",
-        "codePlaceholder": "Code",
         "authRequired": "Authentication Required",
         "authRequiredMessage": "Authentication is required to create a snippet.",
         "loginButton": "Login",
         "createSnippetError": "Failed to create snippet",
-        "searchPlaceholder": "Search snippets...",
         "allLanguages": "All Languages",
         "searchButton": "Search",
         "editDescription": "Update your code snippet",
-        "snippetTitlePlaceholder": "Enter snippet title",
         "selectLanguagePlaceholder": "Select a language",
         "descriptionLabel": "Description",
         "describeSnippetPlaceholder": "Describe what this snippet does",
@@ -127,12 +124,13 @@
     "users": {
         "profile": "User Profile",
         "snippets": "User Snippets",
-        "noSnippets": "This user has no public snippets",
+        "noSnippets": "This user has no snippets",
         "userNotFound": "User Not Found",
         "userNotFoundDescription": "The user you're looking for doesn't exist or has been removed.",
         "browseSnippets": "Browse Snippets",
         "noSnippetsShared": "No snippets shared yet",
-        "noSnippetsMatch": "No snippets match your search"
+        "noSnippetsMatch": "No snippets match your search",
+        "createNew": "Create New Snippet"
     },
     "home": {
         "title": "Code Hub",

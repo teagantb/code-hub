@@ -1,7 +1,7 @@
 "use client";
 
-import { AuthProvider } from "@/contexts/AuthContext";
-import { Toaster as Sonner, ToasterProps } from "sonner";
+import { AuthProvider } from "@/contexts/auth-context";
+import { Toaster as Sonner } from "sonner";
 
 interface ProvidersProps {
     children: React.ReactNode;

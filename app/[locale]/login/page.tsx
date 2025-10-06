@@ -1,11 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
     Card,
     CardContent,
@@ -13,8 +8,13 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { useAuth } from "@/contexts/AuthContext";
-import { useTranslations, useLocale } from "next-intl";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAuth } from "@/contexts/auth-context";
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginPage() {
     const t = useTranslations("auth");

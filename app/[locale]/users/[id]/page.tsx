@@ -1,11 +1,11 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getUser, getUserSnippets } from "@/features/users/lib/data";
 import { UserProfile } from "@/features/users/components/user-profile";
-import { UserStats } from "@/features/users/components/user-stats";
 import { UserSnippetsList } from "@/features/users/components/user-snippet-list";
-import { getTranslations } from "next-intl/server";
+import { UserStats } from "@/features/users/components/user-stats";
+import { getUser, getUserSnippets } from "@/features/users/lib/data";
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 
 interface UserPageProps {
     params: Promise<{ id: string; locale: string }>;
@@ -104,28 +104,41 @@ export default async function UserPage({
         snippets,
         pagination,
         error: snippetsError,
-    } = await getUserSnippets(id, pageNumber, 10, language, search);
+    } = await getUserSnippets(id, pageNumber, 3, language, search);
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-6xl">
             {/* Profile Header */}
             <UserProfile user={user} />
 
-            <div className="grid lg:grid-cols-3 gap-8">
-                {/* Sidebar */}
-                <div className="lg:col-span-1">
-                    <UserStats user={user} />
+            {user.stats.totalSnippets === 0 ? (
+                <div className="container mx-auto px-4 py-8">
+                    <div className="text-center py-8">
+                        <p className="text-muted-foreground">
+                            {t("noSnippets")}
+                        </p>
+                        <Link href="/snippets/new">
+                            <Button className="mt-4">{t("createNew")}</Button>
+                        </Link>
+                    </div>
                 </div>
+            ) : (
+                <div className="grid lg:grid-cols-3 gap-8">
+                    {/* Sidebar */}
+                    <div className="lg:col-span-1">
+                        <UserStats user={user} />
+                    </div>
 
-                {/* Main Content */}
-                <div className="lg:col-span-2">
-                    <UserSnippetsList
-                        snippets={snippets}
-                        pagination={pagination}
-                        userId={id}
-                    />
+                    {/* Main Content */}
+                    <div className="lg:col-span-2">
+                        <UserSnippetsList
+                            snippets={snippets}
+                            pagination={pagination}
+                            userId={id}
+                        />
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

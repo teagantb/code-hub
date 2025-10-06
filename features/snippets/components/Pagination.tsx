@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { PaginationControls } from "@/components/pagination-controls";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -24,27 +24,19 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
         router.push(`/${locale}/snippets?${params.toString()}`);
     };
 
-    if (totalPages <= 1) return null;
+    const pageInfoText = t("pageInfo", {
+        current: currentPage,
+        total: totalPages,
+    });
 
     return (
-        <div className="flex justify-center gap-2 mt-8">
-            <Button
-                variant="outline"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-            >
-                {t("previousButton")}
-            </Button>
-            <span className="flex items-center px-4">
-                {t("pageInfo", { current: currentPage, total: totalPages })}
-            </span>
-            <Button
-                variant="outline"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-            >
-                {t("nextButton")}
-            </Button>
-        </div>
+        <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            previousLabel={t("previousButton")}
+            nextLabel={t("nextButton")}
+            pageInfo={pageInfoText}
+            onChange={handlePageChange}
+        />
     );
 }

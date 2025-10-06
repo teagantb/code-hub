@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { useAuth } from "@/contexts/auth-context";
 import { Check, Copy } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
 import { deleteSnippet } from "../lib/actions";
 import type { Snippet } from "../types";
-import { useTranslations, useLocale } from "next-intl";
 
 interface SnippetActionsProps {
     snippet: Snippet;
@@ -79,11 +79,6 @@ export function SnippetActions({ snippet }: SnippetActionsProps) {
                     </>
                 )}
             </Button>
-            <Link href={`/${locale}/snippets`}>
-                <Button variant="outline" size="sm">
-                    Back
-                </Button>
-            </Link>
         </div>
     );
 }

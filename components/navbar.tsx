@@ -8,7 +8,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth-context";
 import { Menu } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
@@ -48,7 +48,7 @@ export default function Navbar() {
                             href={`/${locale}/tags`}
                             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                         >
-                            Tags
+                            {t("tags")}
                         </Link>
                     </nav>
                 </div>
@@ -107,13 +107,15 @@ export default function Navbar() {
                                 </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                                <Link href={`/${locale}/tags`}>Tags</Link>
+                                <Link href={`/${locale}/tags`}>
+                                    {t("tags")}
+                                </Link>
                             </DropdownMenuItem>
 
                             {user && (
                                 <DropdownMenuItem asChild>
                                     <Link href={`/${locale}/snippets/new`}>
-                                        Create Snippet
+                                        {t("createSnippet")}
                                     </Link>
                                 </DropdownMenuItem>
                             )}

@@ -1,9 +1,9 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useTranslations } from "next-intl";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ComplexityResult } from "@/lib/complexity-analyzer";
+import { useTranslations } from "next-intl";
 
 interface ComplexityAnalysisProps {
     analysis: ComplexityResult;
@@ -46,7 +46,7 @@ export function ComplexityAnalysis({ analysis }: ComplexityAnalysisProps) {
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                     <div>
                         <h4 className="font-medium mb-2">
                             {t("estimatedComplexity")}

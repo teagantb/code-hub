@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth-context";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -58,6 +58,7 @@ export function CreateSnippetForm() {
             const response = await fetch(
                 `/api/tags?search=${encodeURIComponent(query)}&limit=5`
             );
+
             const data = await response.json();
 
             if (response.ok) {
