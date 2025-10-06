@@ -5,6 +5,8 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "image" TEXT,
+    "bio" TEXT,
+    "username" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );
@@ -16,6 +18,9 @@ CREATE TABLE "snippets" (
     "code" TEXT NOT NULL,
     "language" TEXT NOT NULL,
     "topic" TEXT,
+    "description" TEXT,
+    "isPublic" BOOLEAN NOT NULL DEFAULT true,
+    "complexity" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "authorId" TEXT NOT NULL,
@@ -39,6 +44,9 @@ CREATE TABLE "snippet_tags" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "tags_name_key" ON "tags"("name");
