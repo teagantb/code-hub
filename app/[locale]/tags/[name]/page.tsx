@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { getTagSnippets } from "@/features/tags/lib/data";
-import { TagSnippetsList } from "@/features/tags/components/TagSnippetsList";
+import { TagSnippetsList } from "@/features/tags/components/tag-snippet-list";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 

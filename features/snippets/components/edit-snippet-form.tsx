@@ -1,12 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
     Card,
     CardContent,
@@ -14,93 +8,52 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { useAuth } from "@/contexts/AuthContext";
-import { createSnippet } from "../lib/actions";
-import type { CreateSnippetData } from "../types";
-import { useTranslations, useLocale } from "next-intl";
-import Editor from "react-simple-code-editor";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import Prism from "prismjs";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-python";
+import "prismjs/components/prism-typescript";
 import "prismjs/themes/prism.css";
+import { useState } from "react";
+import Editor from "react-simple-code-editor";
 import { LANGUAGES } from "../constant";
+import { updateSnippet } from "../lib/actions";
+import type { Snippet, UpdateSnippetData } from "../types";
 
-export function CreateSnippetForm() {
-    const [formData, setFormData] = useState<CreateSnippetData>({
-        title: "",
-        code: "",
-        language: "",
-        description: "",
-        topic: "",
-        tags: [],
+interface EditSnippetFormProps {
+    snippet: Snippet;
+}
+
+export function EditSnippetForm({ snippet }: EditSnippetFormProps) {
+    const [formData, setFormData] = useState<UpdateSnippetData>({
+        id: snippet.id,
+        title: snippet.title,
+        code: snippet.code,
+        language: snippet.language,
+        description: snippet.description || "",
+        topic: snippet.topic || "",
+        tags: snippet.tags.map((t) => t.tag.name),
     });
-    const [tagsInput, setTagsInput] = useState("");
-    const [tagSuggestions, setTagSuggestions] = useState<string[]>([]);
-    const [showSuggestions, setShowSuggestions] = useState(false);
+    const [tagsInput, setTagsInput] = useState(
+        snippet.tags.map((t) => t.tag.name).join(", ")
+    );
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     const router = useRouter();
-    const { user, loading: authLoading } = useAuth();
     const t = useTranslations("snippets");
     const tCommon = useTranslations("common");
     const locale = useLocale();
-
-    const fetchTagSuggestions = async (query: string) => {
-        if (query.length < 2) {
-            setTagSuggestions([]);
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                `/api/tags?search=${encodeURIComponent(query)}&limit=5`
-            );
-            const data = await response.json();
-
-            if (response.ok) {
-                setTagSuggestions(data.tags.map((tag: any) => tag.name));
-            }
-        } catch (error) {
-            console.error("Failed to fetch tag suggestions:", error);
-        }
-    };
-
-    const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setTagsInput(value);
-
-        // Get the last tag being typed
-        const tagsArray = value.split(",").map((tag) => tag.trim());
-        const lastTag = tagsArray[tagsArray.length - 1];
-
-        if (lastTag) {
-            fetchTagSuggestions(lastTag);
-            setShowSuggestions(true);
-        } else {
-            setShowSuggestions(false);
-        }
-    };
-
-    const handleTagSuggestionClick = (suggestion: string) => {
-        const tagsArray = tagsInput.split(",").map((tag) => tag.trim());
-        tagsArray[tagsArray.length - 1] = suggestion;
-        setTagsInput(tagsArray.join(", ") + ", ");
-        setShowSuggestions(false);
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError("");
-
-        if (!user) {
-            setError(t("authRequired"));
-            setLoading(false);
-            return;
-        }
 
         try {
             const tags = tagsInput
@@ -110,53 +63,26 @@ export function CreateSnippetForm() {
                       .filter(Boolean)
                 : [];
 
-            await createSnippet({
+            await updateSnippet({
                 ...formData,
                 tags,
             });
         } catch (error) {
             setError(
-                error instanceof Error ? error.message : t("createSnippetError")
+                error instanceof Error ? error.message : t("updateSnippetError")
             );
             setLoading(false);
         }
     };
 
-    if (authLoading) {
-        return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-                    <p className="mt-2 text-muted-foreground">Loading...</p>
-                </div>
-            </div>
-        );
-    }
-
-    if (!user) {
-        return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold mb-4">
-                        {t("authRequired")}
-                    </h1>
-                    <p className="text-muted-foreground mb-4">
-                        {t("authRequiredMessage")}
-                    </p>
-                    <Link href={`/${locale}/login`}>
-                        <Button>{t("loginButton")}</Button>
-                    </Link>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="container mx-auto px-4 py-8 max-w-4xl">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-2xl">{t("createNew")}</CardTitle>
-                    <CardDescription>{t("createDescription")}</CardDescription>
+                    <CardTitle className="text-2xl">
+                        {t("editSnippet")}
+                    </CardTitle>
+                    <CardDescription>{t("editDescription")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -202,7 +128,7 @@ export function CreateSnippetForm() {
                                     className="w-full px-3 py-2 border border-input bg-background rounded-md"
                                 >
                                     <option value="">
-                                        {t("selectLanguage")}
+                                        {t("selectLanguagePlaceholder")}
                                     </option>
                                     {LANGUAGES.map((lang) => (
                                         <option key={lang} value={lang}>
@@ -216,7 +142,7 @@ export function CreateSnippetForm() {
 
                         <div className="space-y-2">
                             <Label htmlFor="description">
-                                {t("description")}
+                                {t("descriptionLabel")}
                             </Label>
                             <Textarea
                                 id="description"
@@ -227,7 +153,7 @@ export function CreateSnippetForm() {
                                         description: e.target.value,
                                     })
                                 }
-                                placeholder={t("describeSnippet")}
+                                placeholder={t("describeSnippetPlaceholder")}
                                 rows={3}
                             />
                         </div>
@@ -250,46 +176,14 @@ export function CreateSnippetForm() {
 
                             <div className="space-y-2">
                                 <Label htmlFor="tags">{t("tags")}</Label>
-                                <div className="relative">
-                                    <Input
-                                        id="tags"
-                                        value={tagsInput}
-                                        onChange={handleTagInputChange}
-                                        onBlur={() =>
-                                            setTimeout(
-                                                () => setShowSuggestions(false),
-                                                200
-                                            )
-                                        }
-                                        onFocus={() => {
-                                            if (tagSuggestions.length > 0) {
-                                                setShowSuggestions(true);
-                                            }
-                                        }}
-                                        placeholder={t("tagsPlaceholder")}
-                                    />
-                                    {showSuggestions &&
-                                        tagSuggestions.length > 0 && (
-                                            <div className="absolute top-full left-0 right-0 bg-background border border-input rounded-md shadow-lg z-10 mt-1">
-                                                {tagSuggestions.map(
-                                                    (suggestion, index) => (
-                                                        <button
-                                                            key={index}
-                                                            type="button"
-                                                            className="w-full px-3 py-2 text-left hover:bg-muted"
-                                                            onClick={() =>
-                                                                handleTagSuggestionClick(
-                                                                    suggestion
-                                                                )
-                                                            }
-                                                        >
-                                                            {suggestion}
-                                                        </button>
-                                                    )
-                                                )}
-                                            </div>
-                                        )}
-                                </div>
+                                <Input
+                                    id="tags"
+                                    value={tagsInput}
+                                    onChange={(e) =>
+                                        setTagsInput(e.target.value)
+                                    }
+                                    placeholder={t("tagsPlaceholder")}
+                                />
                             </div>
                         </div>
 
@@ -307,7 +201,6 @@ export function CreateSnippetForm() {
                                     const lang = (
                                         formData.language || ""
                                     ).toLowerCase();
-
                                     if (lang === "javascript") {
                                         return Prism.highlight(
                                             code,
@@ -315,7 +208,6 @@ export function CreateSnippetForm() {
                                             "javascript"
                                         );
                                     }
-
                                     if (lang === "typescript") {
                                         return Prism.highlight(
                                             code,
@@ -323,7 +215,6 @@ export function CreateSnippetForm() {
                                             "typescript"
                                         );
                                     }
-
                                     if (lang === "python") {
                                         return Prism.highlight(
                                             code,
@@ -331,8 +222,7 @@ export function CreateSnippetForm() {
                                             "python"
                                         );
                                     }
-
-                                    return code; // fallback: show as plain text
+                                    return code;
                                 }}
                                 padding={10}
                                 style={{
@@ -341,19 +231,22 @@ export function CreateSnippetForm() {
                                     fontSize: 12,
                                     borderRadius: "5px",
                                     border: "1px solid #ccc",
-                                    minHeight: "200px",
                                 }}
                             />
                         </div>
 
                         <div className="flex gap-4">
                             <Button type="submit" disabled={loading}>
-                                {loading ? tCommon("loading") : t("createNew")}
+                                {loading ? tCommon("loading") : tCommon("save")}
                             </Button>
                             <Button
                                 type="button"
                                 variant="outline"
-                                onClick={() => router.back()}
+                                onClick={() =>
+                                    router.push(
+                                        `/${locale}/snippets/${snippet.id}`
+                                    )
+                                }
                             >
                                 {tCommon("cancel")}
                             </Button>

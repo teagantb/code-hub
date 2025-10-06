@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 import type { User } from "../types";
 
 interface UserStatsProps {

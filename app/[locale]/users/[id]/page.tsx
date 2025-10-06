@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getUser, getUserSnippets } from "@/features/users/lib/data";
-import { UserProfile } from "@/features/users/components/UserProfile";
-import { UserStats } from "@/features/users/components/UserStats";
-import { UserSnippetsList } from "@/features/users/components/UserSnippetsList";
+import { UserProfile } from "@/features/users/components/user-profile";
+import { UserStats } from "@/features/users/components/user-stats";
+import { UserSnippetsList } from "@/features/users/components/user-snippet-list";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 

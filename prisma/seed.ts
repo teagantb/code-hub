@@ -390,6 +390,241 @@ async function main() {
         authorId: users[0].id,
       },
     }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_11",
+        title: "Merge Two Sorted Lists",
+        code: `function mergeTwoLists(l1, l2) {
+    const dummy = { val: 0, next: null };
+    let current = dummy;
+
+    while (l1 && l2) {
+        if (l1.val < l2.val) {
+            current.next = l1;
+            l1 = l1.next;
+        } else {
+            current.next = l2;
+            l2 = l2.next;
+        }
+        current = current.next;
+    }
+
+    current.next = l1 || l2;
+    return dummy.next;
+}
+
+// Iterative merge in O(n)`,
+        language: "javascript",
+        description: "Merge two sorted linked lists",
+        topic: "Linked List",
+        complexity: "O(n)",
+        isPublic: true,
+        authorId: users[0].id,
+      },
+    }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_12",
+        title: "Valid Palindrome",
+        code: `function isPalindrome(s) {
+    let i = 0, j = s.length - 1;
+    while (i < j) {
+        while (i < j && !/[a-z0-9]/i.test(s[i])) i++;
+        while (i < j && !/[a-z0-9]/i.test(s[j])) j--;
+        if (s[i].toLowerCase() !== s[j].toLowerCase()) return false;
+        i++; j--;
+    }
+    return true;
+}`,
+        language: "javascript",
+        description: "Check if string is palindrome ignoring non-alphanumerics",
+        topic: "String, Two Pointers",
+        complexity: "O(n)",
+        isPublic: true,
+        authorId: users[1].id,
+      },
+    }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_13",
+        title: "Move Zeroes",
+        code: `function moveZeroes(nums) {
+    let lastNonZero = 0;
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== 0) {
+            [nums[lastNonZero], nums[i]] = [nums[i], nums[lastNonZero]];
+            lastNonZero++;
+        }
+    }
+    return nums;
+}`,
+        language: "javascript",
+        description: "Move all zeroes to end while maintaining order",
+        topic: "Array, Two Pointers",
+        complexity: "O(n)",
+        isPublic: true,
+        authorId: users[2].id,
+      },
+    }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_14",
+        title: "Plus One",
+        code: `function plusOne(digits) {
+    for (let i = digits.length - 1; i >= 0; i--) {
+        if (digits[i] < 9) {
+            digits[i]++;
+            return digits;
+        }
+        digits[i] = 0;
+    }
+    digits.unshift(1);
+    return digits;
+}`,
+        language: "javascript",
+        description: "Add one to array-form integer",
+        topic: "Array",
+        complexity: "O(n)",
+        isPublic: true,
+        authorId: users[0].id,
+      },
+    }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_15",
+        title: "Min Stack",
+        code: `class MinStack {
+    constructor() {
+        this.stack = [];
+        this.minStack = [];
+    }
+    push(x) {
+        this.stack.push(x);
+        const min = this.minStack.length === 0 ? x : Math.min(x, this.minStack[this.minStack.length - 1]);
+        this.minStack.push(min);
+    }
+    pop() { this.stack.pop(); this.minStack.pop(); }
+    top() { return this.stack[this.stack.length - 1]; }
+    getMin() { return this.minStack[this.minStack.length - 1]; }
+}`,
+        language: "javascript",
+        description: "Stack supporting getMin in O(1)",
+        topic: "Stack, Design",
+        complexity: "O(1)",
+        isPublic: true,
+        authorId: users[1].id,
+      },
+    }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_16",
+        title: "Fibonacci (DP)",
+        code: `function fib(n) {
+    if (n <= 1) return n;
+    let a = 0, b = 1;
+    for (let i = 2; i <= n; i++) {
+        [a, b] = [b, a + b];
+    }
+    return b;
+}`,
+        language: "javascript",
+        description: "Compute nth Fibonacci using iteration",
+        topic: "Dynamic Programming, Math",
+        complexity: "O(n)",
+        isPublic: true,
+        authorId: users[2].id,
+      },
+    }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_17",
+        title: "Count Bits",
+        code: `function countBits(n) {
+    const res = new Array(n + 1).fill(0);
+    for (let i = 1; i <= n; i++) {
+        res[i] = res[i >> 1] + (i & 1);
+    }
+    return res;
+}`,
+        language: "javascript",
+        description: "DP with i>>1 relation",
+        topic: "Dynamic Programming, Bit Manipulation",
+        complexity: "O(n)",
+        isPublic: true,
+        authorId: users[0].id,
+      },
+    }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_18",
+        title: "Group Anagrams",
+        code: `function groupAnagrams(strs) {
+    const map = new Map();
+    for (const s of strs) {
+        const key = s.split("").sort().join("");
+        if (!map.has(key)) map.set(key, []);
+        map.get(key).push(s);
+    }
+    return Array.from(map.values());
+}`,
+        language: "javascript",
+        description: "Group anagrams using sorted key",
+        topic: "Hash Table, String",
+        complexity: "O(n k log k)",
+        isPublic: true,
+        authorId: users[1].id,
+      },
+    }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_19",
+        title: "Top K Frequent Elements",
+        code: `function topKFrequent(nums, k) {
+    const count = new Map();
+    for (const n of nums) count.set(n, (count.get(n) || 0) + 1);
+    const buckets = Array(nums.length + 1).fill(0).map(() => []);
+    for (const [n, c] of count) buckets[c].push(n);
+    const res = [];
+    for (let i = buckets.length - 1; i >= 0 && res.length < k; i--) {
+        for (const n of buckets[i]) res.push(n);
+    }
+    return res.slice(0, k);
+}`,
+        language: "javascript",
+        description: "Bucket sort by frequency",
+        topic: "Hash Table, Bucket Sort",
+        complexity: "O(n)",
+        isPublic: true,
+        authorId: users[2].id,
+      },
+    }),
+    prisma.snippet.create({
+      data: {
+        id: "snippet_20",
+        title: "Product of Array Except Self",
+        code: `function productExceptSelf(nums) {
+    const n = nums.length;
+    const res = new Array(n).fill(1);
+    let prefix = 1;
+    for (let i = 0; i < n; i++) {
+        res[i] = prefix;
+        prefix *= nums[i];
+    }
+    let suffix = 1;
+    for (let i = n - 1; i >= 0; i--) {
+        res[i] *= suffix;
+        suffix *= nums[i];
+    }
+    return res;
+}`,
+        language: "javascript",
+        description: "Compute product except self without division",
+        topic: "Array, Prefix Suffix",
+        complexity: "O(n)",
+        isPublic: true,
+        authorId: users[0].id,
+      },
+    }),
   ]);
 
   console.log("✅ Snippets created");
@@ -506,6 +741,94 @@ async function main() {
       data: {
         snippetId: snippets[9].id,
         tagId: tags.find((t) => t.name === "hash-table")!.id,
+      },
+    }),
+    // Merge Two Sorted Lists - linked list
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[10].id,
+        tagId: tags.find((t) => t.name === "array")!.id,
+      },
+    }),
+    // Valid Palindrome - string, two-pointers
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[11].id,
+        tagId: tags.find((t) => t.name === "string")!.id,
+      },
+    }),
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[11].id,
+        tagId: tags.find((t) => t.name === "two-pointers")!.id,
+      },
+    }),
+    // Move Zeroes - array, two-pointers
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[12].id,
+        tagId: tags.find((t) => t.name === "array")!.id,
+      },
+    }),
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[12].id,
+        tagId: tags.find((t) => t.name === "two-pointers")!.id,
+      },
+    }),
+    // Plus One - array
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[13].id,
+        tagId: tags.find((t) => t.name === "array")!.id,
+      },
+    }),
+    // Min Stack - greedy (approx) / stack
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[14].id,
+        tagId: tags.find((t) => t.name === "greedy")!.id,
+      },
+    }),
+    // Fibonacci - math
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[15].id,
+        tagId: tags.find((t) => t.name === "math")!.id,
+      },
+    }),
+    // Count Bits - math
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[16].id,
+        tagId: tags.find((t) => t.name === "math")!.id,
+      },
+    }),
+    // Group Anagrams - string, sorting
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[17].id,
+        tagId: tags.find((t) => t.name === "string")!.id,
+      },
+    }),
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[17].id,
+        tagId: tags.find((t) => t.name === "sorting")!.id,
+      },
+    }),
+    // Top K Frequent - hash-table
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[18].id,
+        tagId: tags.find((t) => t.name === "hash-table")!.id,
+      },
+    }),
+    // Product Except Self - array
+    prisma.snippetTag.create({
+      data: {
+        snippetId: snippets[19].id,
+        tagId: tags.find((t) => t.name === "array")!.id,
       },
     }),
   ]);

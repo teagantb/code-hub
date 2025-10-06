@@ -1,6 +1,6 @@
 import { getTags } from "@/features/tags/lib/data";
-import { TagSearchForm } from "@/features/tags/components/TagSearchForm";
-import { TagCard } from "@/features/tags/components/TagCard";
+import { TagSearchForm } from "@/features/tags/components/tag-search-form";
+import { TagCard } from "@/features/tags/components/tag-card";
 import { getTranslations } from "next-intl/server";
 
 interface TagsPageProps {

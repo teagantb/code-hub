@@ -1,10 +1,10 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Pagination } from "@/features/snippets/components/pagination";
+import { SnippetCard } from "@/features/snippets/components/snippet-card";
+import { SnippetSearchForm } from "@/features/snippets/components/snippet-search-form";
 import { getSnippets } from "@/features/snippets/lib/data";
-import { SnippetSearchForm } from "@/features/snippets/components/SnippetSearchForm";
-import { SnippetCard } from "@/features/snippets/components/SnippetCard";
-import { Pagination } from "@/features/snippets/components/Pagination";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 
 interface SnippetsPageProps {
     searchParams: Promise<{
@@ -14,6 +14,8 @@ interface SnippetsPageProps {
         tag?: string;
     }>;
 }
+
+const ITEMS_PER_PAGE = 6;
 
 export default async function SnippetsPage({
     searchParams,
@@ -27,7 +29,7 @@ export default async function SnippetsPage({
 
     const { snippets, pagination, error } = await getSnippets(
         page,
-        10,
+        ITEMS_PER_PAGE,
         search,
         language,
         tag

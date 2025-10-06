@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getSnippetForEdit } from "@/features/snippets/lib/data";
-import { EditSnippetForm } from "@/features/snippets/components/EditSnippetForm";
+import { EditSnippetForm } from "@/features/snippets/components/edit-snippet-form";
 import { getTokenFromCookies, verifyToken } from "@/lib/auth";
 
 interface EditSnippetPageProps {

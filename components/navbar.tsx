@@ -1,11 +1,6 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
-import { useTranslations, useLocale } from "next-intl";
-import LanguageSwitcher from "./language-switcher";
-import { Code2, Menu, Search } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,8 +8,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+import { useAuth } from "@/contexts/AuthContext";
+import { Menu } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
+import Link from "next/link";
+import LanguageSwitcher from "./language-switcher";
 
 export default function Navbar() {
     const { user, loading, logout } = useAuth();
