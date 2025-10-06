@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Pagination } from "@/features/snippets/components/pagination";
+import { Pagination } from "@/features/snippets/components/pagination-client";
 import { SnippetCard } from "@/features/snippets/components/snippet-card";
 import { SnippetSearchForm } from "@/features/snippets/components/snippet-search-form";
 import { getSnippets } from "@/features/snippets/lib/data";
