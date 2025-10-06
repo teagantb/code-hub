@@ -12,19 +12,6 @@ interface ComplexityAnalysisProps {
 export function ComplexityAnalysis({ analysis }: ComplexityAnalysisProps) {
     const t = useTranslations("complexity");
 
-    const getConfidenceColor = (confidence: string) => {
-        switch (confidence) {
-            case "high":
-                return "bg-green-100 text-green-800 border-green-200";
-            case "medium":
-                return "bg-yellow-100 text-yellow-800 border-yellow-200";
-            case "low":
-                return "bg-red-100 text-red-800 border-red-200";
-            default:
-                return "bg-gray-100 text-gray-800 border-gray-200";
-        }
-    };
-
     const getComplexityColor = (complexity: string) => {
         if (complexity.includes("O(1)")) return "bg-green-100 text-green-800";
         if (complexity.includes("O(log n)")) return "bg-blue-100 text-blue-800";
@@ -46,30 +33,17 @@ export function ComplexityAnalysis({ analysis }: ComplexityAnalysisProps) {
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 gap-4">
-                    <div>
-                        <h4 className="font-medium mb-2">
-                            {t("estimatedComplexity")}
-                        </h4>
-                        <Badge
-                            className={`${getComplexityColor(
-                                analysis.complexity
-                            )} font-mono text-sm px-3 py-1`}
-                        >
-                            {analysis.complexity}
-                        </Badge>
-                    </div>
-
-                    <div>
-                        <h4 className="font-medium mb-2">{t("confidence")}</h4>
-                        <Badge
-                            className={`${getConfidenceColor(
-                                analysis.confidence
-                            )} text-sm px-3 py-1`}
-                        >
-                            {t(`confidenceLevels.${analysis.confidence}`)}
-                        </Badge>
-                    </div>
+                <div>
+                    <h4 className="font-medium mb-2">
+                        {t("estimatedComplexity")}
+                    </h4>
+                    <Badge
+                        className={`${getComplexityColor(
+                            analysis.complexity
+                        )} font-mono text-sm px-3 py-1`}
+                    >
+                        {analysis.complexity}
+                    </Badge>
                 </div>
 
                 <div>
