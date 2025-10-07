@@ -2,6 +2,8 @@
 
 A modern, full-stack web application for sharing, discovering, and organizing code snippets with intelligent tagging and complexity analysis.
 
+🌐 **Live Demo**: [https://codehub.kanobi.io.vn/](https://codehub.kanobi.io.vn/)
+
 ## 🚀 Features
 
 ### Core Functionality
@@ -159,6 +161,8 @@ code-hub/
 6. **Open your browser**
    Navigate to `http://localhost:3000`
 
+    Or visit the live demo at [https://codehub.kanobi.io.vn/](https://codehub.kanobi.io.vn/)
+
 ## 🛠️ Available Scripts
 
 -   `npm run dev` - Start development server with Turbopack
@@ -278,3 +282,5 @@ For support and questions:
 ---
 
 **Code Hub** - Share, discover, and organize code snippets with intelligent analysis and modern web technologies.
+
+🌐 **Try it live**: [https://codehub.kanobi.io.vn/](https://codehub.kanobi.io.vn/)
